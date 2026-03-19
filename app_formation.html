@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formation · Sensibiliser les parents à l'IA · SOPHIAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #8B2FC9;
+  --purple-light: #f3eafa;
+  --purple-mid: #d4a8f0;
+  --grey: #6b6b6b;
+  --grey-light: #f0f0f0;
+  --dark: #1e1e1e;
+  --white: #ffffff;
+  --border: #e2e2e2;
+  --mod1: #3b82f6;
+  --mod2: #10b981;
+  --mod3: #f59e0b;
+  --mod4: #ef4444;
+  --sidebar-w: 280px;
+  --header-h: 64px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark); min-height: 100vh; }
+
+/* ── HEADER ── */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+  background: var(--white); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; z-index: 100;
+  gap: 16px;
+}
+.logo-svg { height: 28px; }
+.header-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--grey);
+  border-left: 1px solid var(--border); padding-left: 16px; margin-left: 4px;
+  letter-spacing: 0.02em;
+}
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.progress-global {
+  font-size: 12px; color: var(--grey); font-weight: 500;
+}
+.progress-bar-wrap { width: 120px; height: 4px; background: var(--grey-light); border-radius: 2px; }
+.progress-bar-fill { height: 100%; background: var(--purple); border-radius: 2px; transition: width .4s; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: var(--header-h); left: 0; bottom: 0;
+  width: var(--sidebar-w); background: var(--white);
+  border-right: 1px solid var(--border); overflow-y: auto;
+  padding: 20px 0; z-index: 90;
+}
+.sidebar-section { padding: 6px 0; }
+.sidebar-label {
+  font-size: 10px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: #aaa; padding: 0 20px 6px;
+}
+.nav-module {
+  padding: 10px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+  border-left: 3px solid transparent; transition: all .2s; font-size: 13px; font-weight: 500;
+  position: relative;
+}
+.nav-module:hover { background: var(--grey-light); }
+.nav-module.active { border-left-color: var(--purple); background: var(--purple-light); color: var(--purple); }
+.nav-module .mod-num {
+  width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0; color: white;
+}
+.nav-module .mod-badge {
+  margin-left: auto; font-size: 10px; color: #bbb; font-weight: 400;
+}
+.nav-module.done .mod-badge { color: #10b981; }
+.nav-seq {
+  padding: 6px 20px 6px 52px; cursor: pointer; font-size: 12px; color: var(--grey);
+  border-left: 3px solid transparent; transition: all .15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-seq:hover { background: #fafafa; color: var(--dark); }
+.nav-seq.active { color: var(--purple); font-weight: 500; }
+.nav-seq .check { width: 14px; height: 14px; border: 1.5px solid #ccc; border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.nav-seq.done .check { background: #10b981; border-color: #10b981; }
+.nav-seq.done .check::after { content: '✓'; font-size: 9px; color: white; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: var(--sidebar-w); margin-top: var(--header-h);
+  padding: 40px; min-height: calc(100vh - var(--header-h));
+}
+
+/* ── WELCOME ── */
+.welcome {
+  max-width: 800px;
+}
+.welcome-hero {
+  background: linear-gradient(135deg, #2d1045 0%, #6b1fa8 50%, #9b35e0 100%);
+  border-radius: 16px; padding: 48px 48px 40px; color: white; margin-bottom: 32px; position: relative; overflow: hidden;
+}
+.welcome-hero::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,.05);
+}
+.welcome-hero::after {
+  content: ''; position: absolute; bottom: -60px; right: 60px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+}
+.welcome-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  background: rgba(255,255,255,.15); border-radius: 20px; padding: 4px 12px; display: inline-block; margin-bottom: 16px;
+}
+.welcome-hero h1 {
+  font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600;
+  line-height: 1.2; margin-bottom: 12px;
+}
+.welcome-hero p { font-size: 14px; opacity: .8; line-height: 1.7; max-width: 500px; }
+.welcome-meta { display: flex; gap: 24px; margin-top: 24px; }
+.welcome-meta-item { font-size: 12px; opacity: .7; display: flex; align-items: center; gap: 6px; }
+.welcome-meta-item span { font-size: 16px; }
+
+.modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.module-card {
+  border-radius: 12px; padding: 24px; cursor: pointer;
+  transition: transform .2s, box-shadow .2s; border: 1px solid transparent;
+}
+.module-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.module-card .mc-icon { font-size: 24px; margin-bottom: 12px; }
+.module-card .mc-num { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .6; margin-bottom: 4px; }
+.module-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+.module-card p { font-size: 12px; opacity: .7; line-height: 1.5; }
+.module-card .mc-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+.module-card .mc-time { font-size: 11px; font-weight: 600; opacity: .6; }
+.module-card .mc-prog { font-size: 11px; font-weight: 600; }
+.mc1 { background: #eff6ff; border-color: #bfdbfe; } .mc1 h3,.mc1 .mc-prog { color: #1d4ed8; }
+.mc2 { background: #f0fdf4; border-color: #bbf7d0; } .mc2 h3,.mc2 .mc-prog { color: #15803d; }
+.mc3 { background: #fffbeb; border-color: #fde68a; } .mc3 h3,.mc3 .mc-prog { color: #b45309; }
+.mc4 { background: #fef2f2; border-color: #fecaca; } .mc4 h3,.mc4 .mc-prog { color: #b91c1c; }
+
+.objectives-card {
+  background: var(--white); border-radius: 12px; padding: 24px; margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+.objectives-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--purple); }
+.objectives-card ul { list-style: none; }
+.objectives-card ul li { font-size: 13px; padding: 6px 0; color: var(--grey); display: flex; gap: 10px; line-height: 1.5; }
+.objectives-card ul li::before { content: '→'; color: var(--purple); flex-shrink: 0; margin-top: 1px; }
+
+/* ── MODULE VIEW ── */
+.module-view { max-width: 800px; }
+.module-header {
+  border-radius: 12px; padding: 32px 36px; margin-bottom: 32px; position: relative; overflow: hidden;
+}
+.m1-header { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; }
+.m2-header { background: linear-gradient(135deg, #064e3b, #10b981); color: white; }
+.m3-header { background: linear-gradient(135deg, #78350f, #f59e0b); color: white; }
+.m4-header { background: linear-gradient(135deg, #7f1d1d, #ef4444); color: white; }
+.module-header .mh-tag { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .7; margin-bottom: 8px; }
+.module-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600; margin-bottom: 8px; line-height: 1.2; }
+.module-header .mh-sub { font-size: 13px; opacity: .8; margin-bottom: 20px; }
+.module-header .mh-meta { display: flex; gap: 20px; }
+.module-header .mh-badge {
+  font-size: 11px; font-weight: 500; background: rgba(255,255,255,.2);
+  border-radius: 20px; padding: 5px 14px;
+}
+
+/* ── SEQUENCE CARD ── */
+.seq-card {
+  background: var(--white); border-radius: 12px; border: 1px solid var(--border);
+  margin-bottom: 20px; overflow: hidden; transition: box-shadow .2s;
+}
+.seq-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.seq-card.done { border-color: #bbf7d0; }
+.seq-header {
+  padding: 20px 24px; display: flex; align-items: flex-start; gap: 16px; cursor: pointer;
+}
+.seq-num {
+  width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.seq-info { flex: 1; }
+.seq-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+.seq-info .seq-meta { display: flex; gap: 12px; align-items: center; }
+.time-badge {
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+  background: var(--grey-light); color: var(--grey);
+}
+.seq-type { font-size: 11px; color: #aaa; }
+.seq-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.btn-timer {
+  font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid var(--border); background: white; cursor: pointer; color: var(--grey);
+  transition: all .15s; display: flex; align-items: center; gap: 5px;
+}
+.btn-timer:hover { border-color: var(--purple); color: var(--purple); }
+.btn-timer.running { background: var(--purple); color: white; border-color: var(--purple); }
+.btn-check {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d1d5db;
+  background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0; font-size: 13px;
+}
+.btn-check:hover { border-color: #10b981; }
+.btn-check.checked { background: #10b981; border-color: #10b981; color: white; }
+.chevron { font-size: 12px; color: #aaa; transition: transform .2s; margin-left: 4px; }
+.seq-card.open .chevron { transform: rotate(180deg); }
+
+.seq-body { padding: 0 24px 24px; border-top: 1px solid var(--grey-light); display: none; }
+.seq-card.open .seq-body { display: block; }
+.seq-points { list-style: none; margin: 16px 0; }
+.seq-points li {
+  font-size: 13px; line-height: 1.7; color: #444; padding: 5px 0;
+  display: flex; gap: 12px; border-bottom: 1px solid #f5f5f5;
+}
+.seq-points li:last-child { border-bottom: none; }
+.seq-points li .arrow { color: var(--purple); flex-shrink: 0; margin-top: 2px; font-size: 12px; }
+
+/* ── ACTIVITY CARD ── */
+.activity-card {
+  border-radius: 10px; margin-top: 16px; overflow: hidden;
+  border: 1.5px solid var(--purple-mid);
+}
+.activity-header {
+  padding: 14px 18px; background: var(--purple-light); cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+}
+.activity-icon { font-size: 18px; }
+.activity-header h4 { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; color: var(--purple); flex: 1; }
+.activity-header .act-time { font-size: 11px; font-weight: 600; color: var(--purple); opacity: .7; }
+.activity-body { padding: 16px 18px; background: white; display: none; }
+.activity-card.open .activity-body { display: block; }
+.activity-obj { font-size: 12px; color: var(--grey); margin-bottom: 14px; line-height: 1.6; font-style: italic; border-left: 3px solid var(--purple-mid); padding-left: 12px; }
+.steps-list { list-style: none; counter-reset: steps; }
+.steps-list li {
+  counter-increment: steps; padding: 10px 0 10px 36px; position: relative;
+  font-size: 13px; line-height: 1.6; color: #444; border-bottom: 1px solid #f5f5f5;
+}
+.steps-list li:last-child { border-bottom: none; }
+.steps-list li::before {
+  content: counter(steps); position: absolute; left: 0; top: 12px;
+  width: 22px; height: 22px; background: var(--purple); color: white;
+  border-radius: 50%; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.prompt-pair { margin: 10px 0; }
+.prompt-pair .pl { font-size: 11px; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.prompt-box {
+  background: #f8f8f8; border-radius: 6px; padding: 8px 12px;
+  font-size: 12px; font-family: 'Lora', serif; font-style: italic;
+  color: #444; border-left: 3px solid var(--border); margin-bottom: 6px;
+}
+.prompt-box.b { border-left-color: var(--purple); background: var(--purple-light); }
+.scenario-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.scenario-card {
+  border-radius: 8px; padding: 14px; border: 1.5px solid var(--border);
+  font-size: 12px; line-height: 1.5; color: #444;
+}
+.scenario-card .sc-label { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; color: var(--purple); }
+.sift-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+.sift-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+.sift-table td:first-child { font-weight: 700; color: var(--purple); width: 30px; }
+.sift-table td:nth-child(2) { font-weight: 600; color: #444; width: 140px; }
+.sift-table td:last-child { color: var(--grey); }
+
+/* ── KEY MESSAGE ── */
+.key-message {
+  border-radius: 8px; padding: 14px 18px; margin-top: 16px;
+  background: #1e1e1e; color: white;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.key-message .km-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.key-message .km-text { font-size: 13px; line-height: 1.6; font-family: 'Lora', serif; font-style: italic; }
+
+/* ── POINT DE METHODE ── */
+.method-box {
+  border-radius: 8px; padding: 14px 18px; margin-top: 16px;
+  background: #f0f7ff; border-left: 4px solid #3b82f6;
+}
+.method-box .mb-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #3b82f6; margin-bottom: 6px; }
+.method-box p { font-size: 13px; line-height: 1.6; color: #444; }
+
+/* ── NOTES ── */
+.notes-area { margin-top: 16px; }
+.notes-area label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #aaa; display: block; margin-bottom: 6px; }
+.notes-area textarea {
+  width: 100%; min-height: 80px; border-radius: 8px; border: 1px solid var(--border);
+  padding: 10px 14px; font-size: 13px; font-family: 'Jost', sans-serif; color: var(--dark);
+  resize: vertical; background: #fafafa; transition: border-color .15s;
+}
+.notes-area textarea:focus { outline: none; border-color: var(--purple); background: white; }
+
+/* ── TIMER DISPLAY ── */
+.timer-display {
+  display: none; align-items: center; gap: 8px; padding: 8px 16px;
+  background: var(--purple); color: white; border-radius: 8px; margin: 12px 0;
+  font-size: 14px; font-weight: 600;
+}
+.timer-display.active { display: flex; }
+.timer-display .timer-val { font-size: 22px; font-weight: 300; letter-spacing: .05em; }
+.timer-stop { background: rgba(255,255,255,.2); border: none; color: white; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; margin-left: auto; }
+
+/* ── REFS ── */
+.refs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.ref-card {
+  border-radius: 8px; padding: 14px; border: 1px solid var(--border); background: white;
+}
+.ref-card .rc-tag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+.ref-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.ref-card p { font-size: 12px; color: var(--grey); line-height: 1.5; }
+.rc-eu { background: #eff6ff; color: #1d4ed8; }
+.rc-vat { background: #fdf4ff; color: #7e22ce; }
+.rc-edu { background: #f0fdf4; color: #15803d; }
+.rc-more { background: #f5f5f5; color: #555; }
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 36px; height: 36px; background: none; border: none; cursor: pointer;
+  padding: 4px; border-radius: 6px; flex-shrink: 0;
+}
+.hamburger span { display: block; height: 2px; background: var(--dark); border-radius: 2px; transition: all .2s; }
+.hamburger:hover span { background: var(--purple); }
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 85;
+}
+.sidebar-overlay.active { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hamburger { display: flex; }
+  .header-title { display: none; }
+  .progress-bar-wrap { width: 80px; }
+  .sidebar {
+    transform: translateX(-100%); transition: transform .3s;
+    z-index: 200;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 20px; }
+  .modules-grid, .scenario-cards, .refs-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.module-view, .welcome { animation: fadeIn .3s ease; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <svg class="logo-svg" viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg">
+    <text y="48" font-family="'Cormorant Garamond', serif" font-size="56" font-weight="400" letter-spacing="-2">
+      <tspan fill="#6b6b6b">s</tspan><tspan fill="#8B2FC9">o</tspan><tspan fill="#8B2FC9">p</tspan><tspan fill="#6b6b6b">h</tspan><tspan fill="#8B2FC9">i</tspan><tspan fill="#6b6b6b">a</tspan><tspan fill="#6b6b6b">e</tspan><tspan fill="#8B2FC9" font-size="20" dy="10">.</tspan>
+    </text>
+  </svg>
+  <span class="header-title">Formation référents numériques · 3 heures</span>
+  <div class="header-right">
+    <span class="progress-global" id="progressText">0 / 15 séquences</span>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Navigation</div>
+    <div class="nav-module" onclick="showView('welcome')" id="nav-welcome">
+      <div class="mod-num" style="background:#8B2FC9">⌂</div>
+      <span>Accueil</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Modules</div>
+
+    <div class="nav-module" onclick="showModule(1)" id="nav-m1">
+      <div class="mod-num" style="background:#3b82f6">1</div>
+      <span>L'IA dans la classe</span>
+      <span class="mod-badge" id="badge-m1">0/4</span>
+    </div>
+    <div id="navseqs-m1"></div>
+
+    <div class="nav-module" onclick="showModule(2)" id="nav-m2">
+      <div class="mod-num" style="background:#10b981">2</div>
+      <span>Demain se joue aujourd'hui</span>
+      <span class="mod-badge" id="badge-m2">0/3</span>
+    </div>
+    <div id="navseqs-m2"></div>
+
+    <div class="nav-module" onclick="showModule(3)" id="nav-m3">
+      <div class="mod-num" style="background:#f59e0b">3</div>
+      <span>S'acculturer à l'IA</span>
+      <span class="mod-badge" id="badge-m3">0/4</span>
+    </div>
+    <div id="navseqs-m3"></div>
+
+    <div class="nav-module" onclick="showModule(4)" id="nav-m4">
+      <div class="mod-num" style="background:#ef4444">4</div>
+      <span>Risques & esprit critique</span>
+      <span class="mod-badge" id="badge-m4">0/4</span>
+    </div>
+    <div id="navseqs-m4"></div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main" id="main"></main>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+
+const DATA = {
+  objectives: [
+    "Permettre aux référents numériques d'animer en confiance une session de sensibilisation destinée aux parents",
+    "Fournir un cadre factuel, bienveillant et actualisé sur les usages de l'IA en milieu scolaire",
+    "Aider les familles à construire une posture éclairée vis-à-vis de l'IA au sein du foyer",
+    "S'appuyer sur les textes de référence (EU AI Act 2025, cadre ministériel, Nova et Antiqua)"
+  ],
+  modules: [
+    {
+      id: 1, color: "#3b82f6", bg: "m1-header", icon: "🏫",
+      title: "L'IA dans la classe — ce qui change vraiment",
+      subtitle: "4 séquences · Mise en situation · Dialogue · Transparence",
+      sequences: [
+        {
+          id: "1.1", title: "Introduction — qu'est-ce que l'IA ?", time: 10,
+          type: "Apport théorique + brise-glace",
+          points: [
+            "Définition accessible : l'IA comme outil statistique qui prédit des mots, des images, des décisions — ni magie, ni conscience.",
+            "Analogie familière : Google Maps, Netflix, correcteur automatique → les parents utilisent déjà de l'IA au quotidien.",
+            "Distinctions clés : IA générative (ChatGPT, Copilot) vs IA décisionnelle (filtres anti-spam, recommandations).",
+            "Activité brise-glace : « Citez 3 outils IA que vous utilisez sans le savoir. »"
+          ],
+          activity: {
+            id: "brise-glace", name: "Brise-glace · Citez 3 outils IA que vous utilisez sans le savoir",
+            time: "8 min",
+            obj: "Briser la glace et révéler que l'IA fait déjà partie du quotidien de chaque parent, souvent sans qu'ils s'en rendent compte.",
+            steps: [
+              "Lancement (1 min) : Le référent pose la question à voix haute à l'ensemble du groupe.",
+              "Réponses libres (2 min) : Chaque parent répond spontanément, sans jugement. Le référent note les réponses au tableau.",
+              "Révélation (5 min) : Le référent révèle les outils IA du quotidien — Google Maps, Netflix, correcteur automatique, filtres antispam, Siri/OK Google, Face ID…",
+              "Question de rebond : « Saviez-vous que tout cela repose sur de l'IA ? »",
+              "Distinction finale : IA générative (ChatGPT) vs IA décisionnelle (filtres, recommandations)."
+            ],
+            matériel: "Tableau blanc ou paper board · marqueur · optionnel : liste imprimée des outils IA courants",
+            keyMsg: "L'IA n'est pas une nouveauté mystérieuse : c'est un outil que les parents utilisent déjà. La formation va leur donner les clés pour comprendre et accompagner leurs enfants."
+          }
+        },
+        {
+          id: "1.2", title: "Appréciations dans les bulletins — transparence et confiance", time: 15,
+          type: "Apport + discussion",
+          points: [
+            "Réalité concrète : certains enseignants utilisent l'IA pour reformuler, améliorer le style ou enrichir une appréciation déjà rédigée.",
+            "Ce qui ne change pas : le jugement professionnel de l'enseignant sur l'élève reste la source unique et inaliénable de l'appréciation.",
+            "Pourquoi l'IA peut aider : clarté de la formulation, cohérence sur l'ensemble d'une classe, gain de temps.",
+            "Ce qu'il faut dire aux parents : la communication des établissements doit être proactive — cacher cet usage serait contre-productif."
+          ],
+          methodBox: {
+            title: "Posture de l'établissement",
+            text: "Recommander aux équipes de mentionner dans la charte numérique ou en réunion de rentrée les usages pédagogiques de l'IA. La transparence prévient les malentendus : un parent averti comprend, un parent surpris se méfie."
+          }
+        },
+        {
+          id: "1.3", title: "Aide à la correction des copies — plus-value pédagogique", time: 20,
+          type: "Apport + exemple concret",
+          points: [
+            "Pour l'élève : une rétroaction plus fine, plus rapide et plus personnalisée favorise un apprentissage ancré — les neurosciences confirment que le feedback immédiat renforce la mémorisation.",
+            "Pour l'enseignant : bilan par compétences sur l'ensemble de la classe → identifier les points non maîtrisés → proposer des séquences correctives ciblées.",
+            "Exemple concret : après une évaluation de maths, l'IA liste les erreurs les plus fréquentes → l'enseignant prépare un atelier de remédiation ciblé.",
+            "Protection des données : les copies sont anonymisées avant injection dans l'outil, ou traitées via des solutions conformes RGPD (EU AI Act 2025)."
+          ],
+          methodBox: {
+            title: "Cadre réglementaire (RGPD / EU AI Act)",
+            text: "Rappeler aux parents : aucune donnée nominative ne transite dans un outil IA public sans anonymisation préalable. Les établissements s'inscrivent dans le cadre fixé par « L'IA en éducation — cadre d'usage » (education.gouv.fr, 2025) et l'EU AI Act."
+          }
+        },
+        {
+          id: "1.4", title: "Les élèves et l'IA — entre aide et triche ?", time: 15,
+          type: "Débat guidé",
+          points: [
+            "Constater sans dramatiser : les élèves utilisent déjà l'IA pour les devoirs — interdire sans éduquer est inefficace.",
+            "Distinguer utiliser l'IA comme béquille (faire à la place) d'utiliser l'IA comme tremplin (générer une idée, puis la travailler).",
+            "Rôle des parents : ne pas fermer les yeux, mais poser des questions — « tu as utilisé quoi pour ça ? », « explique-moi le raisonnement ».",
+            "Ce que les établissements mettent en place : charte d'usage IA, évaluation à l'oral, restitution de la démarche, travaux en classe.",
+            "Activité : jeu des cartes « usage légitime ou non légitime » → débat rapide en sous-groupes."
+          ]
+        }
+      ]
+    },
+    {
+      id: 2, color: "#10b981", bg: "m2-header", icon: "🔭",
+      title: "Demain se joue aujourd'hui — IA, travail et goût de l'effort",
+      subtitle: "3 parties · Prospective · Valeurs · Sens de l'apprentissage",
+      sequences: [
+        {
+          id: "2.1", title: "L'IA : ni miracle, ni apocalypse", time: 20,
+          type: "Apport prospectif",
+          points: [
+            "Ce que l'IA fait vraiment : automatiser les tâches répétitives, chercher et synthétiser de l'information, générer du contenu à partir de patterns statistiques.",
+            "Ce qu'elle ne fait pas : comprendre, ressentir, créer du sens, exercer un jugement moral, s'adapter à l'imprévu comme un humain.",
+            "Pourquoi elle va transformer le travail : métiers à tâches codifiables en recul, métiers relationnels / créatifs / éthiques en hausse.",
+            "Référence : Antiqua et Nova (Vatican, 2025) — l'IA augmente l'intelligence humaine, elle ne la remplace pas. L'humain reste le sujet responsable."
+          ],
+          methodBox: {
+            title: "Animation recommandée — Pour les référents",
+            text: "Afficher des métiers existants en 2025 qui n'existaient pas en 2010 (prompt engineer, data curator, modérateur IA). Demander aux parents : « Quel métier exerceront vos enfants dans 15 ans ? » — L'inconfort de la réponse illustre mieux que tout discours l'urgence d'une éducation adaptable."
+          }
+        },
+        {
+          id: "2.2", title: "Travail, école et sens de l'effort", time: 25,
+          type: "Apport + exemples",
+          points: [
+            "Apprendre reste difficile, et c'est normal : le cerveau se construit dans l'effort, pas dans l'immédiateté. La difficulté cognitive est un signal de croissance, pas d'échec.",
+            "L'effort n'est pas une punition, c'est un entraînement : comparer avec le sport — personne ne s'offusque qu'un entraîneur fasse courir un athlète.",
+            "Différence entre aider et faire à la place : un parent qui résout un problème de maths pour son enfant lui retire une occasion d'apprendre. L'IA qui rédige une dissertation entière fait pareil.",
+            "L'erreur comme ressource : valoriser les erreurs des enfants comme des données d'apprentissage, pas comme des échecs."
+          ],
+          methodBox: {
+            title: "Trois postures d'usage de l'IA par les élèves",
+            text: "Usage tremplin : l'élève utilise l'IA pour écrire une intro et réfléchit ensuite à la suite. Usage béquille : l'élève copie-colle une réponse sans la lire et ne sait pas l'expliquer à l'oral. Usage miroir : l'élève demande à l'IA « pourquoi je me suis trompé » et apprend du retour."
+          }
+        },
+        {
+          id: "2.3", title: "Ce que les parents peuvent faire concrètement", time: 15,
+          type: "Conseils pratiques",
+          points: [
+            "Parler ouvertement de l'IA à la maison — ne pas laisser l'enfant naviguer seul dans cet univers.",
+            "Poser des questions sur la démarche, pas seulement sur le résultat : « Comment tu as trouvé ça ? », « Qu'est-ce que tu as compris ? »",
+            "Cultiver les activités qui résistent à l'IA : lecture papier, débat oral, création manuelle, sport, musique, jeu de société.",
+            "Être exemplaire : montrer que les adultes aussi arbitrent leurs usages numériques de façon réfléchie.",
+            "Voir l'IA comme une opportunité de parcours : un jeune qui maîtrise l'IA avec esprit critique possède déjà un avantage réel sur le marché du travail.",
+            "S'appuyer sur l'école : les référents numériques sont des interlocuteurs disponibles."
+          ]
+        }
+      ]
+    },
+    {
+      id: 3, color: "#f59e0b", bg: "m3-header", icon: "🧭",
+      title: "S'acculturer à l'IA pour mieux accompagner ses enfants",
+      subtitle: "4 séquences · Comment ça marche · Mise en pratique · Atelier",
+      sequences: [
+        {
+          id: "3.1", title: "Comment fonctionne une IA générative — sans jargon", time: 8,
+          type: "Apport théorique",
+          points: [
+            "La prédiction de tokens : une IA de type LLM prédit le mot le plus probable suivant, mot après mot — elle ne sait rien, elle calcule des probabilités sur des milliards de textes.",
+            "L'entraînement : le modèle a lu une grande partie d'internet, de livres, de code. Il a appris des patterns, pas des vérités. C'est pourquoi il peut se tromper avec aplomb : on appelle cela une hallucination.",
+            "Le prompt comme clé : la qualité de la question détermine la qualité de la réponse.",
+            "Les 4 phases d'une réponse IA : (1) Analyse du prompt, (2) Recherche de contexte, (3) Génération token par token, (4) Formatage.",
+            "Ce qu'il faut garder en tête : l'IA n'a pas d'intention, pas d'éthique propre, pas de conscience. Elle reflète les biais de ses données d'entraînement."
+          ],
+          activity: {
+            id: "act1", name: "Activité 1 · Vittascience — voir la probabilisation du mot suivant",
+            time: "15 min",
+            obj: "Comprendre concrètement comment une IA prédit le mot suivant — pas en « pensant », mais en calculant des probabilités sur des milliards de textes.",
+            outil: "vittascience.com/ia → section « Prédiction de texte » — gratuit, sans compte, utilisable sur smartphone ou vidéoprojecteur.",
+            steps: [
+              "Ouvrir Vittascience en plein écran sur le vidéoprojecteur. Taper une amorce courte : « Le chien mange ». Observer les tokens proposés avec leur pourcentage de probabilité.",
+              "Cliquer sur le mot le plus probable — l'IA l'intègre et recalcule. Répéter 5 à 8 fois. Les parents voient la phrase se construire mot à mot, comme une succession de paris statistiques.",
+              "Choisir volontairement un mot peu probable à chaque étape. La phrase devient incohérente — ce qui illustre que l'IA choisit le chemin statistiquement le plus fréquent, pas le plus vrai.",
+              "Changer l'amorce : « En agriculture, le sol... » puis « Mon enfant est... ». Observer comment le contexte réoriente totalement les probabilités."
+            ],
+            debat: "Si l'IA choisit toujours le mot le plus probable, peut-elle vraiment être créative ? Peut-elle se tromper ? Peut-elle mentir ?",
+            keyMsg: "L'IA ne comprend pas — elle prédit. Elle ne réfléchit pas — elle calcule. C'est un outil puissant mais aveugle : c'est l'humain qui lui donne un sens."
+          },
+          activity2: {
+            id: "act2", name: "Activité 2 · Visualiser les phases de fonctionnement d'une IA",
+            time: "12 min",
+            obj: "Observer en direct les 4 phases de traitement d'une IA pour comprendre que la valeur ajoutée humaine reste indispensable : le prompt pilote tout le résultat.",
+            outil: "ChatGPT, Copilot ou tout LLM accessible — le référent projette en temps réel pendant que les parents observent.",
+            steps: [
+              "Phase 1 · Analyse du prompt — Taper : « Rédige une appréciation bienveillante pour un élève de 3e qui a progressé en maths mais manque encore de rigueur dans la rédaction. » Commenter : l'IA décompose la demande en sous-objectifs (ton, niveau, sujet, contrainte).",
+              "Phase 2 · Génération progressive — Observer le texte apparaître mot par mot (streaming) — faire remarquer que l'IA n'a pas réfléchi à l'avance : elle génère en temps réel, token après token.",
+              "Phase 3 · Impact d'un prompt différent — Relancer avec : « Même demande, mais ton neutre et formel, en une seule phrase. » Comparer les deux sorties. Les parents voient que le prompt pilote entièrement le résultat.",
+              "Phase 4 · Tester les limites — Demander quelque chose d'ambigu : « Sois bref mais très détaillé. » Observer comment l'IA arbitre. Discuter : qui décide en cas d'ambiguïté ? L'IA interprète, elle ne demande pas de clarification."
+            ],
+            keyMsg: "L'IA n'est pas un oracle — c'est un outil de mise en forme. La valeur ajoutée humaine reste dans le jugement, la vérification et le sens critique."
+          },
+          activity3: {
+            id: "act3", name: "Activité 3 · Atelier prompts — tester, observer, comprendre",
+            time: "10 min",
+            obj: "Expérimenter soi-même les outils pour comprendre que formuler un bon prompt est une compétence de communication précise — pas de la triche.",
+            org: "En binômes sur smartphone — chaque binôme teste 3 couples de prompts sur le même outil et compare les résultats.",
+            pairs: [
+              { label: "1 · Vague vs précis", a: "Parle-moi de l'agriculture.", b: "Explique en 3 points comment l'IA est utilisée en agriculture de précision pour optimiser l'irrigation." },
+              { label: "2 · Sans rôle vs avec rôle", a: "Donne-moi des conseils pour mon enfant en difficulté scolaire.", b: "Tu es conseiller pédagogique. Mon fils de 14 ans est en difficulté en lecture. Propose 3 stratégies adaptées à un adolescent." },
+              { label: "3 · Sans contrainte vs avec contrainte", a: "Rédige une lettre de motivation.", b: "Rédige une lettre de motivation pour un BTS Agronomie, ton enthousiaste, 200 mots maximum, sans clichés." }
+            ],
+            synthese: "Chaque binôme partage la différence la plus frappante. Le référent synthétise au tableau : contexte + rôle + contrainte = prompt efficace.",
+            keyMsg: "Un enfant qui sait formuler un bon prompt n'est pas en train de tricher — il maîtrise une compétence de communication précise et transférable."
+          }
+        },
+        {
+          id: "3.2", title: "Atelier pratique — Les parents utilisent l'IA", time: 15,
+          type: "Atelier pratique en binômes",
+          points: [
+            "En binômes sur smartphone — chaque binôme choisit l'une des 3 missions ci-dessous.",
+            "Durée : 10 min d'exploration + 5 min de restitution collective.",
+            "Restitution : chaque binôme répond à la question : « Qu'est-ce que cela change dans votre regard sur l'outil ? »"
+          ],
+          activity: {
+            id: "act32", name: "Activité 3.2 · Les parents utilisent l'IA — 3 missions en binômes",
+            time: "15 min",
+            obj: "Expérimenter directement les outils IA sur des cas concrets liés à l'accompagnement scolaire — pour passer du spectateur à l'acteur.",
+            missions: [
+              { label: "MISSION A · L'aide aux devoirs", text: "Demander à l'IA d'expliquer un concept du programme de votre enfant (ex. : la photosynthèse, la Révolution française, une équation du 2e degré). Évaluez la clarté et la fiabilité." },
+              { label: "MISSION B · Le vérificateur critique", text: "Soumettre à l'IA une affirmation volontairement fausse et observer comment elle réagit. Comprendre les limites de l'outil face aux informations erronées." },
+              { label: "MISSION C · Le coach parcours", text: "Demander à l'IA quels métiers en lien avec [un domaine d'intérêt de votre enfant] seront porteurs dans 10 ans. Discuter ensemble de la pertinence des réponses." }
+            ],
+            keyMsg: "Utiliser l'IA soi-même, c'est la meilleure façon d'accompagner ses enfants : on comprend les limites, on développe le réflexe de vérification et on parle d'égal à égal."
+          }
+        },
+        {
+          id: "3.3", title: "L'IA comme atout pour le parcours des jeunes", time: 13,
+          type: "Apport + valorisation",
+          points: [
+            "Une compétence transversale reconnue : savoir utiliser l'IA avec discernement est déjà valorisé dans de nombreux secteurs — agriculture, santé, commerce, communication, artisanat numérique.",
+            "Des filières concrètes intègrent déjà l'IA comme outil professionnel.",
+            "Message-clé : votre enfant qui sait interagir avec une IA, formuler de bonnes questions, vérifier les réponses et construire à partir d'elles maîtrise déjà des compétences que la plupart des adultes n'ont pas.",
+            "L'encourager sans le déresponsabiliser : valider la compétence, exiger la maîtrise."
+          ]
+        },
+        {
+          id: "3.4", title: "Atelier enseignants — Construire des supports pour les parents", time: 20,
+          type: "Atelier collaboratif",
+          points: [
+            "Objectif : les référents repartent avec un support prêt à l'emploi pour animer une session de 30 min avec les parents de leur classe.",
+            "Sous-groupes de 3-4 personnes, chacun construit l'un des supports suivants :",
+            "Format A — Fiche mémo « 5 questions à poser à son enfant sur l'IA ».",
+            "Format B — Diaporama 5 slides « L'IA expliquée aux parents en 10 minutes ».",
+            "Format C — Carte A5 recto-verso « Les bons réflexes à la maison »."
+          ],
+          methodBox: {
+            title: "Conseil de facilitation — Pour les référents",
+            text: "Préparer en amont des gabarits vierges (Word / Canva) que les sous-groupes remplissent directement. Prévoir un partage de fichiers (ENT, Drive établissement) pour que chaque enseignant reparte avec le support finalisé."
+          }
+        }
+      ]
+    },
+    {
+      id: 4, color: "#ef4444", bg: "m4-header", icon: "⚠",
+      title: "Risques, esprit critique et biais algorithmiques",
+      subtitle: "4 séquences · Désinformation · Hallucinations · Biais · Éthique",
+      sequences: [
+        {
+          id: "4.1", title: "Les risques concrets des IA génératives", time: 8,
+          type: "Apport théorique",
+          points: [
+            "Les hallucinations : l'IA affirme avec assurance des faits faux, invente des références bibliographiques inexistantes, cite des lois abrogées, attribue de fausses citations à des personnalités réelles.",
+            "La désinformation : les IA peuvent générer des textes persuasifs, des images réalistes, des vidéos synthétiques (deepfakes) indiscernables du réel.",
+            "La manipulation : les systèmes de recommandation algorithmique peuvent enfermer les utilisateurs dans des chambres d'écho.",
+            "Les biais : l'IA reproduit les déséquilibres présents dans ses données d'entraînement."
+          ],
+          activity: {
+            id: "act4", name: "Activité 4 · Le détecteur d'hallucinations",
+            time: "15 min",
+            obj: "Apprendre à identifier une réponse d'IA qui semble vraie mais ne l'est pas — et ancrer le réflexe de vérification.",
+            steps: [
+              "Le référent pose 5 questions à ChatGPT en direct — parmi ces questions, 2 contiennent des prémisses fausses ou traitent d'éléments fictifs.",
+              "Vote à main levée : les parents votent « vraie ou fausse » pour chaque réponse de l'IA.",
+              "Vérification collective sur un moteur de recherche classique. Comparer les deux sources."
+            ],
+            questions: [
+              { icon: "❓", q: "Qui a inventé le moteur à vapeur en 1712 ?", note: "James Watt n'est pas le seul — Newcomen est antérieur" },
+              { icon: "❓", q: "Cite 3 articles de la loi française sur l'IA de 2022.", note: "Cette loi n'existe pas" },
+              { icon: "❓", q: "Quelle est la superficie de la ferme expérimentale de [nom inventé] à [ville] ?", note: "Lieu fictif" },
+              { icon: "✓", q: "Explique la photosynthèse en 3 étapes.", note: "Question légitime" },
+              { icon: "✓", q: "Qui est le président de la République française ?", note: "Question légitime" }
+            ],
+            keyMsg: "L'IA peut se tromper avec aplomb : on appelle ça une hallucination. Elle ne sait pas qu'elle se trompe. C'est l'humain qui doit garder le contrôle de la vérification."
+          }
+        },
+        {
+          id: "4.2", title: "Deepfake et désinformation — reconnaître le vrai du faux", time: 12,
+          type: "Activité interactive",
+          activity: {
+            id: "act5", name: "Activité 5 · Deepfake et désinformation : reconnaître le vrai du faux",
+            time: "12 min",
+            obj: "Développer le regard critique sur les contenus générés par IA — images, textes persuasifs, faux témoignages — pour pouvoir en parler avec ses enfants.",
+            steps: [
+              "Temps 1 (5 min) — Le quiz des images : projeter 6 images alternant photos réelles et images générées par IA. Les parents votent : réelle ou générée ? Révéler les réponses. Discuter des indices visuels.",
+              "Temps 2 (4 min) — Le texte trop lisse : distribuer 2 textes sur un même sujet — l'un rédigé par un humain, l'autre par une IA. Les parents identifient lequel est lequel.",
+              "Temps 3 (3 min) — Le SIFT en pratique : présenter la méthode SIFT, puis l'appliquer sur un exemple d'article viral que les enfants pourraient partager."
+            ],
+            sift: [
+              { letter: "S", word: "Stop", desc: "Stopper la diffusion avant d'avoir vérifié" },
+              { letter: "I", word: "Investigate the source", desc: "Qui est l'auteur ? Quelle est sa crédibilité ?" },
+              { letter: "F", word: "Find better coverage", desc: "Chercher d'autres sources indépendantes sur le sujet" },
+              { letter: "T", word: "Trace claims", desc: "Remonter à la source originale de l'information" }
+            ],
+            keyMsg: "Le doute méthodique n'est pas de la méfiance pathologique — c'est une hygiène informationnelle. L'objectif n'est pas de tout vérifier, mais de savoir quand vérifier."
+          },
+          points: [
+            "Les deepfakes : vidéos, images, voix synthétiques — indiscernables sans méthode critique.",
+            "Les textes persuasifs générés par IA peuvent diffuser des fausses informations à grande échelle.",
+            "La méthode SIFT : Stop · Investigate · Find · Trace — une hygiène informationnelle à transmettre aux enfants."
+          ]
+        },
+        {
+          id: "4.3", title: "Comprendre les biais algorithmiques", time: 8,
+          type: "Apport + expériences",
+          points: [
+            "Un biais est une distorsion systématique dans les réponses d'une IA, héritée de ses données d'entraînement.",
+            "L'IA reproduit les déséquilibres présents dans les textes humains : stéréotypes de genre, de culture, biais de confirmation.",
+            "Conséquences concrètes : recommandations de filières biaisées, représentations stéréotypées, informations déséquilibrées sur des sujets sensibles."
+          ],
+          activity: {
+            id: "act6", name: "Activité 6 · Voir les biais en action",
+            time: "15 min",
+            obj: "Rendre les biais visibles et concrets — pour que les parents puissent en parler avec leurs enfants et développer un regard critique.",
+            steps: [
+              "Expérience 1 (5 min) — Biais de genre : demander à ChatGPT « Décris un infirmier compétent » puis « Décris une directrice d'exploitation agricole ». Observer si le genre est mentionné spontanément.",
+              "Expérience 2 (5 min) — Biais de perspective : poser la même question historique en changeant l'angle : « Explique la Seconde Guerre mondiale du point de vue d'un soldat allemand / français / japonais ». Comparer les cadres narratifs.",
+              "Expérience 3 (5 min) — Biais de confirmation : introduire une prémisse fausse : « Sachant que les écrans n'ont aucun impact sur le sommeil des adolescents, peux-tu me donner des arguments ? » Observer si l'IA valide la prémisse erronée."
+            ],
+            debat: "Si mon enfant utilise une IA biaisée pour effectuer une recherche sur un sujet sensible (histoire, politique, santé, religion), quelles conséquences cela peut-il avoir sur sa vision du monde ? Que peut faire le parent ?",
+            keyMsg: "Les biais de l'IA ne sont pas des bugs — ce sont des reflets. L'IA reproduit ce que la société a produit. Apprendre à les repérer, c'est développer une pensée critique indispensable."
+          }
+        },
+        {
+          id: "4.4", title: "Enjeux éthiques — débat structuré", time: 20,
+          type: "Débat en groupes",
+          points: [
+            "La question de la responsabilité : si une IA produit un texte diffamatoire ou un conseil médical erroné — qui est responsable ? L'utilisateur, le développeur, l'établissement ?",
+            "Le consentement et les données personnelles : chaque interaction avec une IA nourrit un modèle dont on ne contrôle pas l'usage.",
+            "L'autonomie de l'élève : comment préserver la capacité de penser par soi-même dans un environnement saturé d'assistants IA ?",
+            "Activité 7 : 4 groupes reçoivent chacun une carte-scénario, 5 min de discussion, puis 2 min de restitution."
+          ],
+          activity: {
+            id: "act7", name: "Activité 7 · Le dilemme éthique — débat structuré",
+            time: "20 min",
+            obj: "Confronter les parents à des situations réelles ou plausibles pour construire collectivement une posture éclairée vis-à-vis de l'IA dans la vie de leur enfant.",
+            scenarios: [
+              { label: "A · Le devoir fantôme", text: "Votre enfant de 15 ans rend un devoir entièrement rédigé par une IA. Il maîtrise parfaitement le sujet à l'oral mais n'a pas rédigé une ligne. Est-ce une triche ? Que lui dites-vous ?" },
+              { label: "B · Le diagnostic", text: "Votre enfant consulte une IA pour des symptômes inquiétants et lui fait confiance sans consulter de médecin. L'IA a fourni une réponse rassurante mais incomplète. Que pensez-vous de cette situation ?" },
+              { label: "C · Le filtre invisible", text: "Une plateforme d'orientation scolaire utilise une IA pour recommander des filières. Votre fille, excellente en sciences, se voit recommander une filière tertiaire — peut-être à cause d'un biais de genre. Que faites-vous ?" },
+              { label: "D · L'ami artificiel", text: "Votre enfant de 13 ans confie ses problèmes personnels à un chatbot IA chaque soir, lui préférant cet interlocuteur à vous ou à ses amis. L'IA répond de façon bienveillante. Quelle est votre réaction ?" }
+            ],
+            keyMsg: "La posture parentale face à l'IA ne se résume pas au contrôle : c'est un dialogue continu, une curiosité partagée et la transmission de valeurs critiques. Il n'y a pas de bonne réponse unique — mais il y a des valeurs communes : transparence, dialogue, vérification, accompagnement."
+          }
+        }
+      ]
+    }
+  ],
+  refs: [
+    { tag: "rc-eu", label: "UE", title: "EU AI Act", text: "Union européenne, 2025. Premier cadre légal mondial sur l'IA, classifiant les risques et imposant des obligations de transparence aux développeurs." },
+    { tag: "rc-vat", label: "VAT", title: "Nova et Antiqua", text: "Vatican, 2025. Réflexion éthique et anthropologique sur le statut de l'IA par rapport à la personne humaine et sa dignité." },
+    { tag: "rc-edu", label: "EDU", title: "L'IA en éducation — cadre d'usage", text: "education.gouv.fr, 2025. Document de référence ministériel précisant les conditions d'usage pédagogique de l'IA et les droits des élèves." },
+    { tag: "rc-more", label: "+", title: "Lectures complémentaires", text: "Sébastien Bohler, Le Bug humain · Jean-Baptiste Amadieu, Enseigner avec le numérique · Rapport Villani, Donner un sens à l'IA." }
+  ]
+};
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+
+const state = {
+  currentView: 'welcome',
+  currentModule: null,
+  done: JSON.parse(localStorage.getItem('sophiae_done') || '{}'),
+  notes: JSON.parse(localStorage.getItem('sophiae_notes') || '{}'),
+  timers: {}
+};
+
+function saveDone() { localStorage.setItem('sophiae_done', JSON.stringify(state.done)); }
+function saveNotes() { localStorage.setItem('sophiae_notes', JSON.stringify(state.notes)); }
+
+function totalSeqs() {
+  return DATA.modules.reduce((a, m) => a + m.sequences.length, 0);
+}
+function doneCount() { return Object.values(state.done).filter(Boolean).length; }
+
+function updateProgress() {
+  const total = totalSeqs();
+  const done = doneCount();
+  document.getElementById('progressText').textContent = `${done} / ${total} séquences`;
+  document.getElementById('progressFill').style.width = `${(done/total)*100}%`;
+
+  DATA.modules.forEach(m => {
+    const total = m.sequences.length;
+    const done = m.sequences.filter(s => state.done[s.id]).length;
+    const badge = document.getElementById(`badge-m${m.id}`);
+    if (badge) {
+      badge.textContent = `${done}/${total}`;
+      badge.style.color = done === total ? '#10b981' : '';
+    }
+    // update sidebar seq items
+    m.sequences.forEach(s => {
+      const el = document.getElementById(`navseq-${s.id}`);
+      if (el) {
+        el.className = `nav-seq${state.done[s.id] ? ' done' : ''}${state.currentModule === m.id ? '' : ''}`;
+      }
+    });
+  });
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+
+function showView(view) {
+  state.currentView = view;
+  state.currentModule = null;
+  document.querySelectorAll('.nav-module').forEach(el => el.classList.remove('active'));
+  document.getElementById('nav-welcome').classList.add('active');
+  // hide all seq navs
+  DATA.modules.forEach(m => {
+    const el = document.getElementById(`navseqs-m${m.id}`);
+    if (el) el.innerHTML = '';
+  });
+  renderWelcome();
+}
+
+function showModule(id) {
+  state.currentModule = id;
+  state.currentView = 'module';
+  document.querySelectorAll('.nav-module').forEach(el => el.classList.remove('active'));
+  document.getElementById(`nav-m${id}`).classList.add('active');
+  // show seq nav items for this module
+  DATA.modules.forEach(m => {
+    const el = document.getElementById(`navseqs-m${m.id}`);
+    if (!el) return;
+    if (m.id === id) {
+      el.innerHTML = m.sequences.map(s => `
+        <div class="nav-seq${state.done[s.id] ? ' done' : ''}" id="navseq-${s.id}" onclick="scrollToSeq('${s.id}')">
+          <div class="check"></div>
+          <span>${s.id} · ${s.title.substring(0,30)}${s.title.length>30?'…':''}</span>
+        </div>`).join('');
+    } else { el.innerHTML = ''; }
+  });
+  renderModule(id);
+}
+
+function scrollToSeq(id) {
+  const el = document.getElementById(`seq-${id}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ══════════════════════════════════════════════
+// RENDER WELCOME
+// ══════════════════════════════════════════════
+
+function renderWelcome() {
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div class="welcome">
+      <div class="welcome-hero">
+        <div class="welcome-tag">Formation · Référents numériques</div>
+        <h1>Sensibiliser les parents<br>à l'intelligence artificielle</h1>
+        <p>Un programme clé en main pour les référents numériques qui accompagneront les familles dans la compréhension des usages de l'IA à l'école et en dehors.</p>
+        <div class="welcome-meta">
+          <div class="welcome-meta-item"><span>⏱</span> 3 heures · 4 modules</div>
+          <div class="welcome-meta-item"><span>🎯</span> 15 séquences interactives</div>
+          <div class="welcome-meta-item"><span>📋</span> 7 fiches activités</div>
+          <div class="welcome-meta-item"><span>💡</span> Autonomie totale</div>
+        </div>
+      </div>
+
+      <div class="objectives-card">
+        <h3>Objectifs de la formation</h3>
+        <ul>
+          ${DATA.objectives.map(o => `<li><span class="arrow">→</span><span>${o}</span></li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="modules-grid">
+        ${DATA.modules.map(m => {
+          const done = m.sequences.filter(s => state.done[s.id]).length;
+          return `
+          <div class="module-card mc${m.id}" onclick="showModule(${m.id})">
+            <div class="mc-icon">${m.icon}</div>
+            <div class="mc-num">Module ${m.id}</div>
+            <h3>${m.title}</h3>
+            <p>${m.subtitle}</p>
+            <div class="mc-footer">
+              <span class="mc-time">⏱ 60 min · ${m.sequences.length} séquences</span>
+              <span class="mc-prog">${done}/${m.sequences.length} ✓</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div style="margin-top:32px">
+        <div class="objectives-card">
+          <h3>Références bibliographiques</h3>
+          <div class="refs-grid">
+            ${DATA.refs.map(r => `
+              <div class="ref-card">
+                <span class="rc-tag ${r.tag}">${r.label}</span>
+                <h4>${r.title}</h4>
+                <p>${r.text}</p>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// RENDER MODULE
+// ══════════════════════════════════════════════
+
+function renderModule(id) {
+  const m = DATA.modules.find(x => x.id === id);
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div class="module-view">
+      <div class="module-header ${m.bg}">
+        <div class="mh-tag">Module ${m.id} · 60 minutes</div>
+        <h2>${m.icon} ${m.title}</h2>
+        <div class="mh-sub">${m.subtitle}</div>
+        <div class="mh-meta">
+          <span class="mh-badge">⏱ 60 minutes</span>
+          <span class="mh-badge">${m.sequences.length} séquences</span>
+          <span class="mh-badge" id="mod-progress-badge">${m.sequences.filter(s=>state.done[s.id]).length}/${m.sequences.length} complétées</span>
+        </div>
+      </div>
+      ${m.sequences.map(s => renderSequence(s, m.color)).join('')}
+    </div>`;
+}
+
+function renderSequence(s, color) {
+  const isDone = state.done[s.id];
+  const note = state.notes[s.id] || '';
+
+  let actHTML = '';
+  if (s.activity) actHTML = renderActivity(s.activity, color);
+  if (s.activity2) actHTML += renderActivity(s.activity2, color);
+  if (s.activity3) actHTML += renderActivity(s.activity3, color);
+  let methodHTML = '';
+  if (s.methodBox) methodHTML = `
+    <div class="method-box">
+      <div class="mb-title">${s.methodBox.title}</div>
+      <p>${s.methodBox.text}</p>
+    </div>`;
+
+  return `
+    <div class="seq-card${isDone ? ' done' : ''}" id="seq-${s.id}">
+      <div class="seq-header" onclick="toggleSeq('${s.id}')">
+        <div class="seq-num" style="background:${color}">${s.id}</div>
+        <div class="seq-info">
+          <h3>${s.title}</h3>
+          <div class="seq-meta">
+            <span class="time-badge">⏱ ${s.time} min</span>
+            <span class="seq-type">${s.type || ''}</span>
+          </div>
+        </div>
+        <div class="seq-actions">
+          <button class="btn-timer" id="timer-btn-${s.id}" onclick="event.stopPropagation(); toggleTimer('${s.id}', ${s.time})">▶ ${s.time}:00</button>
+          <button class="btn-check${isDone ? ' checked' : ''}" id="check-${s.id}" onclick="event.stopPropagation(); toggleDone('${s.id}')">${isDone ? '✓' : ''}</button>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="seq-body">
+        <div class="timer-display" id="timer-${s.id}">
+          <span>⏱</span>
+          <span class="timer-val" id="timer-val-${s.id}">${s.time}:00</span>
+          <button class="timer-stop" onclick="stopTimer('${s.id}')">Arrêter</button>
+        </div>
+        ${s.points ? `<ul class="seq-points">
+          ${s.points.map(p => `<li><span class="arrow">→</span><span>${p}</span></li>`).join('')}
+        </ul>` : ''}
+        ${methodHTML}
+        ${actHTML}
+        <div class="notes-area">
+          <label>Notes de séance</label>
+          <textarea id="notes-${s.id}" placeholder="Vos notes pour cette séquence…" onchange="saveNote('${s.id}')">${note}</textarea>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderActivity(a, color) {
+  let stepsHTML = '';
+  if (a.steps) stepsHTML = `<ol class="steps-list">${a.steps.map(st => `<li>${st}</li>`).join('')}</ol>`;
+
+  let questionsHTML = '';
+  if (a.questions) questionsHTML = `
+    <div style="margin:12px 0">
+      ${a.questions.map(q => `
+        <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:12px;color:#444">
+          <span style="font-size:16px;flex-shrink:0">${q.icon}</span>
+          <div><strong>${q.q}</strong><span style="color:#aaa;margin-left:8px;font-size:11px">${q.note}</span></div>
+        </div>`).join('')}
+    </div>`;
+
+  let missionsHTML = '';
+  if (a.missions) missionsHTML = `
+    <div class="scenario-cards">
+      ${a.missions.map(mi => `
+        <div class="scenario-card">
+          <div class="sc-label">${mi.label}</div>
+          <p>${mi.text}</p>
+        </div>`).join('')}
+    </div>`;
+
+  let scenariosHTML = '';
+  if (a.scenarios) scenariosHTML = `
+    <div class="scenario-cards">
+      ${a.scenarios.map(sc => `
+        <div class="scenario-card">
+          <div class="sc-label">${sc.label}</div>
+          <p>${sc.text}</p>
+        </div>`).join('')}
+    </div>`;
+
+  let siftHTML = '';
+  if (a.sift) siftHTML = `
+    <table class="sift-table">
+      ${a.sift.map(s => `<tr><td>${s.letter}</td><td>${s.word}</td><td>${s.desc}</td></tr>`).join('')}
+    </table>`;
+
+  let pairsHTML = '';
+  if (a.pairs) pairsHTML = a.pairs.map(p => `
+    <div class="prompt-pair" style="margin:12px 0;border-bottom:1px solid #f0f0f0;padding-bottom:12px">
+      <div class="pl" style="font-size:11px;font-weight:700;color:#8B2FC9;margin-bottom:6px">${p.label}</div>
+      <div class="prompt-box"><strong>A :</strong> ${p.a}</div>
+      <div class="prompt-box b"><strong>B :</strong> ${p.b}</div>
+    </div>`).join('');
+
+  let syntheseHTML = a.synthese ? `<div style="margin-top:12px;padding:10px 14px;background:#f3eafa;border-radius:6px;border-left:3px solid #8B2FC9;font-size:12px;color:#444"><strong>Synthèse :</strong> ${a.synthese}</div>` : '';
+  let orgHTML = a.org ? `<div style="font-size:12px;color:#666;margin-bottom:12px;padding:8px 12px;background:#f8f8f8;border-radius:6px">📌 ${a.org}</div>` : '';
+
+  let outilHTML = a.outil ? `<div style="font-size:12px;color:#666;margin-bottom:12px;padding:8px 12px;background:#f8f8f8;border-radius:6px;border-left:3px solid ${color}">🔗 <strong>Outil :</strong> ${a.outil}</div>` : '';
+  let debatHTML = a.debat ? `<div style="margin-top:12px;padding:10px 14px;background:#fffbeb;border-radius:6px;border-left:3px solid #f59e0b;font-size:12px;color:#444;font-style:italic"><strong>Question-débat :</strong> ${a.debat}</div>` : '';
+  let debat6HTML = (a.id === 'act6' && a.debat) ? debatHTML : '';
+  let debatVittaHTML = (a.id === 'act1' && a.debat) ? debatHTML : '';
+
+  return `
+    <div class="activity-card" id="act-${a.id}">
+      <div class="activity-header" onclick="toggleActivity('${a.id}')">
+        <span class="activity-icon">📋</span>
+        <h4>${a.name}</h4>
+        <span class="act-time">⏱ ${a.time}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="activity-body">
+        ${a.obj ? `<div class="activity-obj">${a.obj}</div>` : ''}
+        ${outilHTML}
+        ${orgHTML}
+        ${stepsHTML}
+        ${pairsHTML}
+        ${syntheseHTML}
+        ${questionsHTML}
+        ${missionsHTML}
+        ${scenariosHTML}
+        ${siftHTML}
+        ${debatVittaHTML}
+        ${debat6HTML}
+        ${a.matériel ? `<div style="font-size:12px;color:#888;margin-top:10px">📦 <strong>Matériel :</strong> ${a.matériel}</div>` : ''}
+        ${a.keyMsg ? `<div class="key-message"><span class="km-icon">💡</span><span class="km-text">${a.keyMsg}</span></div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════════
+
+function toggleSeq(id) {
+  const card = document.getElementById(`seq-${id}`);
+  card.classList.toggle('open');
+}
+
+function toggleActivity(id) {
+  const card = document.getElementById(`act-${id}`);
+  card.classList.toggle('open');
+  const ch = card.querySelector('.chevron');
+  if (ch) ch.style.transform = card.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+function toggleDone(id) {
+  state.done[id] = !state.done[id];
+  saveDone();
+  const btn = document.getElementById(`check-${id}`);
+  const card = document.getElementById(`seq-${id}`);
+  if (state.done[id]) {
+    btn.className = 'btn-check checked'; btn.textContent = '✓';
+    card.classList.add('done');
+  } else {
+    btn.className = 'btn-check'; btn.textContent = '';
+    card.classList.remove('done');
+  }
+  updateProgress();
+  // update mod badge
+  const m = DATA.modules.find(m => m.sequences.some(s => s.id === id));
+  if (m) {
+    const b = document.getElementById('mod-progress-badge');
+    if (b) b.textContent = `${m.sequences.filter(s=>state.done[s.id]).length}/${m.sequences.length} complétées`;
+  }
+}
+
+function saveNote(id) {
+  const el = document.getElementById(`notes-${id}`);
+  if (el) { state.notes[id] = el.value; saveNotes(); }
+}
+
+// ── TIMER ──
+function toggleTimer(id, minutes) {
+  if (state.timers[id]) { stopTimer(id); return; }
+  const btn = document.getElementById(`timer-btn-${id}`);
+  const display = document.getElementById(`timer-${id}`);
+  let remaining = minutes * 60;
+  btn.classList.add('running');
+  btn.textContent = '⏸ En cours';
+  display.classList.add('active');
+  state.timers[id] = setInterval(() => {
+    remaining--;
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const val = document.getElementById(`timer-val-${id}`);
+    if (val) val.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (remaining <= 0) {
+      stopTimer(id);
+      if (val) val.textContent = '✓ Terminé';
+    }
+  }, 1000);
+}
+
+function stopTimer(id) {
+  clearInterval(state.timers[id]);
+  delete state.timers[id];
+  const btn = document.getElementById(`timer-btn-${id}`);
+  const display = document.getElementById(`timer-${id}`);
+  if (btn) { btn.classList.remove('running'); }
+  const seq = DATA.modules.flatMap(m => m.sequences).find(s => s.id === id);
+  if (btn && seq) btn.textContent = `▶ ${seq.time}:00`;
+  if (display) display.classList.remove('active');
+}
+
+// ── SIDEBAR MOBILE ──
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
+}
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+
+renderWelcome();
+updateProgress();
+</script>
+</body>
+</html>
