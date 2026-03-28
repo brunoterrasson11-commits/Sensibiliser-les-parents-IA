@@ -30,13 +30,21 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 .header {
   position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
   background: var(--white); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; padding: 0 24px; z-index: 100;
-  gap: 16px;
+  display: flex; align-items: center; z-index: 100;
+}
+.header-logo {
+  width: var(--sidebar-w); flex-shrink: 0;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px; border-right: 1px solid var(--border);
+  height: 100%;
 }
 .logo-svg { height: 28px; }
+.header-body {
+  flex: 1; display: flex; align-items: center;
+  padding: 0 32px; gap: 16px;
+}
 .header-title {
   font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--grey);
-  border-left: 1px solid var(--border); padding-left: 16px; margin-left: 4px;
   letter-spacing: 0.02em;
 }
 .header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
@@ -351,18 +359,22 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 
 <!-- HEADER -->
 <header class="header">
-  <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-  <svg class="logo-svg" viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg">
-    <text y="48" font-family="'Cormorant Garamond', serif" font-size="56" font-weight="400" letter-spacing="-2">
-      <tspan fill="#6b6b6b">s</tspan><tspan fill="#8B2FC9">o</tspan><tspan fill="#8B2FC9">p</tspan><tspan fill="#6b6b6b">h</tspan><tspan fill="#8B2FC9">i</tspan><tspan fill="#6b6b6b">a</tspan><tspan fill="#6b6b6b">e</tspan><tspan fill="#8B2FC9" font-size="20" dy="10">.</tspan>
-    </text>
-  </svg>
-  <span class="header-title">Formation référents numériques · 3 heures</span>
-  <div class="header-right">
-    <span class="progress-global" id="progressText">0 / 15 séquences</span>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="header-logo">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <svg class="logo-svg" viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg">
+      <text y="48" font-family="'Cormorant Garamond', serif" font-size="56" font-weight="400" letter-spacing="-2">
+        <tspan fill="#6b6b6b">s</tspan><tspan fill="#8B2FC9">o</tspan><tspan fill="#8B2FC9">p</tspan><tspan fill="#6b6b6b">h</tspan><tspan fill="#8B2FC9">i</tspan><tspan fill="#6b6b6b">a</tspan><tspan fill="#6b6b6b">e</tspan><tspan fill="#8B2FC9" font-size="20" dy="10">.</tspan>
+      </text>
+    </svg>
+  </div>
+  <div class="header-body">
+    <span class="header-title">Formation · Sensibiliser les parents à l'IA</span>
+    <div class="header-right">
+      <span class="progress-global" id="progressText">0 / 15 séquences</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
   </div>
 </header>
 
@@ -852,7 +864,7 @@ function renderWelcome() {
   main.innerHTML = `
     <div class="welcome">
       <div class="welcome-hero">
-        <div class="welcome-tag">Formation · Référents numériques</div>
+        <div class="welcome-tag">Formation · SOPHIAE</div>
         <h1>Sensibiliser les parents<br>à l'intelligence artificielle</h1>
         <p>Un programme clé en main pour les référents numériques qui accompagneront les familles dans la compréhension des usages de l'IA à l'école et en dehors.</p>
         <div class="welcome-meta">
