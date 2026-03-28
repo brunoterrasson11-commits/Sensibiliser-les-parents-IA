@@ -22,6 +22,7 @@
   --mod4: #ef4444;
   --sidebar-w: 280px;
   --header-h: 64px;
+  --panel-w: 272px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark); min-height: 100vh; }
@@ -95,8 +96,86 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 /* ── MAIN ── */
 .main {
   margin-left: var(--sidebar-w); margin-top: var(--header-h);
+  margin-right: var(--panel-w);
   padding: 40px; min-height: calc(100vh - var(--header-h));
 }
+
+/* ── PANNEAU ANIMATEUR ── */
+.anim-panel {
+  position: fixed; top: var(--header-h); right: 0; bottom: 0;
+  width: var(--panel-w); background: var(--white);
+  border-left: 1px solid var(--border);
+  overflow-y: auto; z-index: 90; padding: 20px 16px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.ap-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: #aaa; margin-bottom: 10px;
+}
+.ap-block {
+  border-radius: 10px; padding: 14px 16px;
+  border: 1px solid var(--border); background: #fafafa;
+}
+.ap-block-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+
+/* timer global */
+.ap-timer-display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300; text-align: center;
+  letter-spacing: .05em; color: var(--dark); line-height: 1;
+  margin: 4px 0 12px;
+}
+.ap-timer-display.warning { color: #f59e0b; }
+.ap-timer-display.urgent { color: #ef4444; }
+.ap-timer-btns { display: flex; gap: 6px; }
+.ap-timer-btns button {
+  flex: 1; padding: 6px 0; border-radius: 6px; border: 1.5px solid var(--border);
+  background: white; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--grey);
+  transition: all .15s;
+}
+.ap-timer-btns button.primary { background: var(--purple); color: white; border-color: var(--purple); }
+.ap-timer-btns button:hover:not(.primary) { border-color: var(--purple); color: var(--purple); }
+
+/* météo */
+.meteo-emojis { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.meteo-btn {
+  font-size: 22px; cursor: pointer; border: none; background: none;
+  border-radius: 8px; padding: 4px 6px; transition: transform .15s, background .15s;
+  position: relative;
+}
+.meteo-btn:hover { transform: scale(1.2); background: var(--grey-light); }
+.meteo-btn.active { background: var(--purple-light); transform: scale(1.15); }
+.meteo-count {
+  position: absolute; top: -4px; right: -4px; font-size: 9px; font-weight: 700;
+  background: var(--purple); color: white; border-radius: 10px;
+  padding: 1px 4px; min-width: 14px; text-align: center; display: none;
+}
+.meteo-btn.active .meteo-count { display: block; }
+.meteo-label { font-size: 11px; color: var(--grey); text-align: center; margin-top: 4px; min-height: 16px; }
+
+/* notes */
+.ap-notes {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; font-family: 'Jost', sans-serif;
+  color: var(--dark); resize: none; background: white;
+  min-height: 90px; transition: border-color .15s;
+}
+.ap-notes:focus { outline: none; border-color: var(--purple); }
+
+/* astuces */
+.ap-tip {
+  font-size: 13px; font-family: 'Lora', serif; font-style: italic;
+  line-height: 1.6; color: #444; min-height: 60px;
+}
+.ap-tip-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.ap-tip-dots { display: flex; gap: 4px; }
+.ap-tip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+.ap-tip-dot.active { background: var(--purple); }
+.ap-tip-btn { font-size: 11px; color: var(--grey); cursor: pointer; background: none; border: none; padding: 0; }
+.ap-tip-btn:hover { color: var(--purple); }
 
 /* ── WELCOME ── */
 .welcome {
@@ -422,6 +501,49 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 
 <!-- MAIN -->
 <main class="main" id="main"></main>
+
+<aside class="anim-panel">
+  <div class="ap-title">🎙 Espace animateur</div>
+
+  <!-- Minuteur séance -->
+  <div class="ap-block">
+    <div class="ap-block-title" style="color:#8B2FC9">⏱ Minuteur séance</div>
+    <div class="ap-timer-display" id="apTimer">3:00:00</div>
+    <div class="ap-timer-btns">
+      <button class="primary" id="apTimerBtn" onclick="apTimerToggle()">Démarrer</button>
+      <button onclick="apTimerReset()">Reset</button>
+    </div>
+  </div>
+
+  <!-- Météo du groupe -->
+  <div class="ap-block">
+    <div class="ap-block-title" style="color:#10b981">🌤 Météo du groupe</div>
+    <div class="meteo-emojis">
+      <button class="meteo-btn" data-label="Très motivés" onclick="meteoClick(this)">😊<span class="meteo-count">0</span></button>
+      <button class="meteo-btn" data-label="Attentifs" onclick="meteoClick(this)">🙂<span class="meteo-count">0</span></button>
+      <button class="meteo-btn" data-label="Perplexes" onclick="meteoClick(this)">🤔<span class="meteo-count">0</span></button>
+      <button class="meteo-btn" data-label="Fatigués" onclick="meteoClick(this)">😴<span class="meteo-count">0</span></button>
+      <button class="meteo-btn" data-label="Idée !" onclick="meteoClick(this)">💡<span class="meteo-count">0</span></button>
+    </div>
+    <div class="meteo-label" id="meteoLabel">Cliquez sur l'émoji qui correspond à l'ambiance</div>
+  </div>
+
+  <!-- Notes rapides -->
+  <div class="ap-block">
+    <div class="ap-block-title" style="color:#f59e0b">📝 Notes rapides</div>
+    <textarea class="ap-notes" id="apNotes" placeholder="Questions des participants, points à revoir, imprévus…" oninput="saveNotes()"></textarea>
+  </div>
+
+  <!-- Astuces animateur -->
+  <div class="ap-block">
+    <div class="ap-block-title" style="color:#3b82f6">💬 Astuces animateur</div>
+    <div class="ap-tip" id="apTip"></div>
+    <div class="ap-tip-nav">
+      <div class="ap-tip-dots" id="apTipDots"></div>
+      <button class="ap-tip-btn" onclick="apNextTip()">Suivante →</button>
+    </div>
+  </div>
+</aside>
 
 <script>
 // ══════════════════════════════════════════════
@@ -1167,6 +1289,87 @@ function closeSidebar() {
 
 renderWelcome();
 updateProgress();
+
+// ══════════════════════════════════════════════
+// PANNEAU ANIMATEUR
+// ══════════════════════════════════════════════
+
+// — Minuteur séance —
+let apSeconds = 3 * 3600;
+let apRunning = false;
+let apInterval = null;
+
+function apTimerToggle() {
+  apRunning = !apRunning;
+  document.getElementById('apTimerBtn').textContent = apRunning ? 'Pause' : 'Reprendre';
+  document.getElementById('apTimerBtn').className = apRunning ? 'primary' : '';
+  if (apRunning) {
+    apInterval = setInterval(() => {
+      apSeconds = Math.max(0, apSeconds - 1);
+      apRender();
+      if (apSeconds === 0) { apRunning = false; clearInterval(apInterval); document.getElementById('apTimerBtn').textContent = 'Terminé'; }
+    }, 1000);
+  } else {
+    clearInterval(apInterval);
+  }
+}
+function apTimerReset() {
+  clearInterval(apInterval);
+  apRunning = false; apSeconds = 3 * 3600;
+  document.getElementById('apTimerBtn').textContent = 'Démarrer';
+  document.getElementById('apTimerBtn').className = 'primary';
+  apRender();
+}
+function apRender() {
+  const h = Math.floor(apSeconds / 3600);
+  const m = Math.floor((apSeconds % 3600) / 60);
+  const s = apSeconds % 60;
+  const el = document.getElementById('apTimer');
+  el.textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.className = 'ap-timer-display' + (apSeconds < 600 ? ' urgent' : apSeconds < 1800 ? ' warning' : '');
+}
+
+// — Météo du groupe —
+const meteoLabels = { '😊': 'Très motivés', '🙂': 'Attentifs', '🤔': 'Perplexes', '😴': 'Fatigués', '💡': 'Idée !' };
+function meteoClick(btn) {
+  const wasActive = btn.classList.contains('active');
+  document.querySelectorAll('.meteo-btn').forEach(b => b.classList.remove('active'));
+  if (!wasActive) {
+    btn.classList.add('active');
+    const cnt = btn.querySelector('.meteo-count');
+    cnt.textContent = parseInt(cnt.textContent || 0) + 1;
+    document.getElementById('meteoLabel').textContent = btn.dataset.label;
+  } else {
+    document.getElementById('meteoLabel').textContent = 'Cliquez sur l\'émoji qui correspond à l\'ambiance';
+  }
+}
+
+// — Notes —
+function saveNotes() {
+  localStorage.setItem('ap_notes', document.getElementById('apNotes').value);
+}
+const savedNotes = localStorage.getItem('ap_notes');
+if (savedNotes) document.getElementById('apNotes').value = savedNotes;
+
+// — Astuces —
+const TIPS = [
+  "Commencez par un tour de table : « Vous utilisez déjà l'IA sans le savoir — pour quel usage ? »",
+  "Si un parent exprime une crainte forte, notez-la au tableau. Revenir dessus en fin de séance crée un arc narratif rassurant.",
+  "Proposez des pauses de 5 min toutes les 50 min. L'attention des adultes décroche vers 45 min.",
+  "Utilisez le silence : après une démo IA, attendez 10 secondes avant de parler. Les questions arrivent alors spontanément.",
+  "Pour les plus sceptiques, demandez-leur de tester eux-mêmes. Le vécu prime sur l'explication.",
+  "Terminez chaque module par « Qu'est-ce que vous retenez ? » — les réponses des participants ancrent mieux que votre résumé.",
+  "Si le débat s'emballe, recentrez avec : « C'est une vraie question. Notons-la pour la fin. »",
+  "Adaptez le rythme : si le groupe est à l'aise avec la tech, approfondissez les enjeux éthiques.",
+];
+let tipIdx = 0;
+function apRenderTip() {
+  document.getElementById('apTip').textContent = '« ' + TIPS[tipIdx] + ' »';
+  const dots = document.getElementById('apTipDots');
+  dots.innerHTML = TIPS.map((_, i) => `<div class="ap-tip-dot${i === tipIdx ? ' active' : ''}"></div>`).join('');
+}
+function apNextTip() { tipIdx = (tipIdx + 1) % TIPS.length; apRenderTip(); }
+apRenderTip();
 </script>
 </body>
 </html>
