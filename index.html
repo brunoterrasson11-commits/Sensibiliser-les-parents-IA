@@ -433,6 +433,67 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 </head>
 <body>
 
+<!-- ECRAN DE CONNEXION -->
+<div id="loginScreen" style="
+  position:fixed; inset:0; background:#f7f6f4;
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999; font-family:'Jost',sans-serif;
+">
+  <div style="
+    background:white; border:1px solid #e2e2e2; border-radius:16px;
+    padding:48px 40px; width:100%; max-width:380px; text-align:center;
+    box-shadow:0 8px 32px rgba(0,0,0,0.08);
+  ">
+    <svg viewBox="0 0 180 40" style="height:32px;margin-bottom:24px;" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="30" font-family="Cormorant Garamond,serif" font-size="28" font-weight="600" fill="#8B2FC9">SOPHIAE</text>
+    </svg>
+    <p style="font-size:13px;color:#6b6b6b;margin-bottom:28px;line-height:1.5;">
+      Entrez le code d'accès pour rejoindre la formation.
+    </p>
+    <input id="codeInput" type="password" placeholder="Code d'accès" style="
+      width:100%; padding:12px 16px; border:1.5px solid #e2e2e2; border-radius:8px;
+      font-size:15px; font-family:'Jost',sans-serif; outline:none;
+      transition:border-color .2s; margin-bottom:8px;
+    "
+    onkeydown="if(event.key==='Enter') checkCode()"
+    onfocus="this.style.borderColor='#8B2FC9'"
+    onblur="this.style.borderColor='#e2e2e2'"
+    />
+    <div id="loginError" style="color:#ef4444;font-size:12px;min-height:18px;margin-bottom:8px;"></div>
+    <button onclick="checkCode()" style="
+      width:100%; padding:12px; background:#8B2FC9; color:white;
+      border:none; border-radius:8px; font-size:14px; font-weight:600;
+      font-family:'Jost',sans-serif; cursor:pointer; transition:background .2s;
+    "
+    onmouseover="this.style.background='#7a28b3'"
+    onmouseout="this.style.background='#8B2FC9'"
+    >Accéder à la formation</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  if (sessionStorage.getItem('sophiae_access') === '1') {
+    document.getElementById('loginScreen').style.display = 'none';
+  }
+})();
+function checkCode() {
+  var val = document.getElementById('codeInput').value.trim().toLowerCase();
+  if (val === 'marta') {
+    sessionStorage.setItem('sophiae_access', '1');
+    var screen = document.getElementById('loginScreen');
+    screen.style.opacity = '0';
+    screen.style.transition = 'opacity .3s';
+    setTimeout(function(){ screen.style.display = 'none'; }, 300);
+  } else {
+    var err = document.getElementById('loginError');
+    err.textContent = 'Code incorrect, veuillez réessayer.';
+    document.getElementById('codeInput').style.borderColor = '#ef4444';
+    setTimeout(function(){ err.textContent=''; document.getElementById('codeInput').style.borderColor='#e2e2e2'; }, 2500);
+  }
+}
+</script>
+
 <!-- SIDEBAR OVERLAY -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
