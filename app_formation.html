@@ -454,6 +454,42 @@ body[data-mode="parents"] .btn-check { display: none; }
 body[data-mode="parents"] .progress-global,
 body[data-mode="parents"] .progress-bar-wrap { display: none; }
 body[data-mode="parents"] .seq-type { display: none; }
+/* ── Simulateur 4.2 ── */
+.sim42 { margin:20px 0; border:1.5px solid var(--border); border-radius:16px; overflow:hidden; background:#fafafa; }
+.sim42-tabs { display:flex; background:white; border-bottom:1.5px solid var(--border); }
+.sim42-tab { flex:1; padding:11px 8px; border:none; background:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:13px; font-weight:600; color:var(--grey); transition:all .2s; border-bottom:2px solid transparent; }
+.sim42-tab.active { color:var(--purple); border-bottom-color:var(--purple); background:var(--purple-light); }
+.sim42-tab:hover:not(.active) { background:#f5f5f5; }
+.sim42-body { padding:20px; }
+.sim42-intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+.sim42-intro-card { padding:16px; background:white; border:1.5px solid var(--border); border-radius:12px; }
+.sim42-intro-card h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
+.sim42-intro-card p { font-size:13px; color:var(--grey); font-style:italic; }
+.sim42-start-btn { background:var(--purple); color:white; border:none; padding:10px 22px; border-radius:20px; font-size:13px; font-weight:700; font-family:'Jost',sans-serif; cursor:pointer; margin-top:12px; }
+.sim42-start-btn:hover { opacity:.9; }
+.sim42-img-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+.sim42-img-card { border-radius:12px; overflow:hidden; background:white; border:1.5px solid var(--border); }
+.sim42-img-wrap { position:relative; aspect-ratio:4/3; overflow:hidden; background:var(--grey-light); }
+.sim42-img-wrap img { width:100%; height:100%; object-fit:cover; transition:transform .6s; }
+.sim42-img-card:hover .sim42-img-wrap img { transform:scale(1.04); }
+.sim42-img-overlay { position:absolute; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+.sim42-img-overlay-label { padding:10px 18px; border-radius:12px; font-weight:900; font-size:14px; color:white; }
+.sim42-img-footer { padding:10px 14px; display:flex; justify-content:space-between; align-items:center; }
+.sim42-rev-btn { padding:5px 14px; border-radius:20px; border:1.5px solid var(--border); background:white; cursor:pointer; font-size:12px; font-weight:700; color:var(--purple); font-family:'Jost',sans-serif; transition:all .2s; }
+.sim42-rev-btn:hover { background:var(--purple-light); border-color:var(--purple); }
+.sim42-tip { background:var(--purple-light); border:1px solid var(--purple-mid); border-radius:12px; padding:14px 16px; margin-top:14px; }
+.sim42-tip h5 { font-weight:700; color:var(--purple); margin-bottom:8px; font-size:13px; }
+.sim42-tip ul { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.sim42-tip li { font-size:12.5px; color:#5b21b6; }
+.sim42-author-btns { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0; }
+.sim42-author-btn { padding:8px 16px; border:1.5px solid var(--border); background:white; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600; font-family:'Jost',sans-serif; color:#444; transition:all .2s; }
+.sim42-author-btn:hover { border-color:var(--purple); color:var(--purple); background:var(--purple-light); }
+.sim42-text-card { background:white; border-radius:12px; padding:20px; border:1.5px solid var(--border); border-top:4px solid var(--border); transition:border-top-color .3s; }
+.sim42-reveal-btn { background:#ef4444; color:white; width:68px; height:68px; border-radius:50%; border:4px solid white; font-size:10px; font-weight:900; font-family:'Jost',sans-serif; cursor:pointer; box-shadow:0 6px 20px rgba(239,68,68,.4); letter-spacing:.02em; transition:transform .15s; }
+.sim42-reveal-btn:hover { transform:scale(1.1); }
+.sim42-analysis { background:var(--dark); color:white; border-radius:12px; padding:20px; margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.sim42-analysis h5 { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+.sim42-analysis p { font-size:13px; line-height:1.65; color:#ccc; }
 </style>
 </head>
 <body>
@@ -859,7 +895,7 @@ const DATA = {
         },
         {
           id: "4.2", title: "Deepfake et désinformation — reconnaître le vrai du faux", time: 12,
-          type: "Activité interactive",
+          type: "Activité interactive", sim42: true,
           activity: {
             id: "act5", name: "Activité 5 · Deepfake et désinformation : reconnaître le vrai du faux",
             time: "12 min",
@@ -1158,7 +1194,8 @@ function renderSequence(s, color) {
   const note = state.notes[s.id] || '';
 
   let actHTML = '';
-  if (s.activity) actHTML = renderActivity(s.activity, color);
+  if (s.sim42) actHTML = renderSim42();
+  if (s.activity) actHTML += renderActivity(s.activity, color);
   if (s.activity2) actHTML += renderActivity(s.activity2, color);
   if (s.activity3) actHTML += renderActivity(s.activity3, color);
   let methodHTML = '';
@@ -1288,6 +1325,179 @@ function renderActivity(a, color) {
         ${a.keyMsg ? `<div class="key-message"><span class="km-icon">💡</span><span class="km-text">${a.keyMsg}</span></div>` : ''}
       </div>
     </div>`;
+}
+
+// ══════════════════════════════════════════════
+// SIMULATEUR 4.2 — ATELIER IA VS RÉALITÉ
+// ══════════════════════════════════════════════
+
+const sim42Images = [
+  { id: 1, label: "Portrait", url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80", isAI: true },
+  { id: 2, label: "Paysage", url: "https://images.unsplash.com/photo-1552083375-1447ce886485?w=600&q=80", isAI: false },
+  { id: 3, label: "Repas", url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80", isAI: true },
+  { id: 4, label: "Nature", url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80", isAI: false }
+];
+
+const sim42Authors = {
+  camus: {
+    name: "Albert Camus",
+    ai: "Le soleil de midi tombait sur la ville déserte comme un jugement sans appel. Les rues blanchissaient sous la chaleur écrasante. Sous cette lumière absolue, les choses avaient perdu leur ombre et leur mystère, réduites à leur seule présence immobile, aveuglante et absurde.",
+    real: "C'était le même soleil que le jour où j'avais enterré maman et, comme alors, le front surtout me faisait mal et toutes ses veines battaient ensemble sous la peau."
+  },
+  maupassant: {
+    name: "Guy de Maupassant",
+    ai: "La grande salle sentait la cire et le renfermé. Mme Lorval souriait de ce sourire pâle qu'ont les femmes qui attendent depuis trop longtemps. Sur la table, une lettre non ouverte ternissait lentement dans la lumière grise du soir.",
+    real: "La terre, après ces trois mois de sécheresse, semblait morte, consumée, changée en une poussière blanche qui s'envolait au moindre souffle."
+  },
+  duras: {
+    name: "Marguerite Duras",
+    ai: "Il pleuvait. Elle ne savait plus depuis combien de jours. Le jardin était noir. Elle pensait au nom qu'elle avait oublié. Le nom d'un homme. C'était il y a longtemps déjà.",
+    real: "C'est là que ça a commencé, ce silence. On ne savait pas qu'il allait durer si longtemps. Le fleuve était là, immense, calme."
+  }
+};
+
+let sim42CurrentOrder = null;
+
+function renderSim42() {
+  const imgsHTML = sim42Images.map(img => `
+    <div class="sim42-img-card">
+      <div class="sim42-img-wrap">
+        <img src="${img.url}" alt="Image ${img.id}" loading="lazy">
+        <div class="sim42-img-overlay" id="sim42-overlay-${img.id}">
+          <div class="sim42-img-overlay-label" style="background:${img.isAI ? '#f59e0b' : '#10b981'}">
+            ${img.isAI ? '🤖 Générée par IA' : '📷 Photo réelle'}
+          </div>
+        </div>
+      </div>
+      <div class="sim42-img-footer">
+        <span style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em">Image #${img.id} — ${img.label}</span>
+        <button class="sim42-rev-btn" id="sim42-revbtn-${img.id}" onclick="sim42RevealImg(${img.id})">👁 Révéler</button>
+      </div>
+    </div>`).join('');
+
+  const authorsHTML = Object.entries(sim42Authors).map(([key, a]) =>
+    `<button class="sim42-author-btn" onclick="sim42GenerateText('${key}')">✍️ ${a.name}</button>`
+  ).join('');
+
+  return `
+    <div class="sim42">
+      <div class="sim42-tabs">
+        <button class="sim42-tab active" data-tab="intro" onclick="sim42Tab('intro')">Accueil</button>
+        <button class="sim42-tab" data-tab="images" onclick="sim42Tab('images')">📷 Quiz Images</button>
+        <button class="sim42-tab" data-tab="text" onclick="sim42Tab('text')">✍️ Test de l'auteur</button>
+      </div>
+      <div class="sim42-body">
+
+        <div id="sim42-panel-intro" class="sim42-panel">
+          <p style="color:#444;font-size:14px;line-height:1.65;margin-bottom:12px">Cet outil interactif permet d'animer les deux exercices clés de la séquence 4.2 directement depuis cet écran, projeté devant les parents.</p>
+          <div class="sim42-intro-grid">
+            <div class="sim42-intro-card">
+              <div style="font-size:24px;margin-bottom:8px">📷</div>
+              <h4>Phase 1 — Le Visuel</h4>
+              <p>« L'œil voit ce qu'il attend de voir. »</p>
+            </div>
+            <div class="sim42-intro-card">
+              <div style="font-size:24px;margin-bottom:8px">✍️</div>
+              <h4>Phase 2 — Le Style</h4>
+              <p>« L'IA imite, l'humain habite son texte. »</p>
+            </div>
+          </div>
+          <button class="sim42-start-btn" onclick="sim42Tab('images')">Démarrer le quiz →</button>
+        </div>
+
+        <div id="sim42-panel-images" class="sim42-panel" style="display:none">
+          <p style="color:#666;font-size:13px;margin-bottom:12px">Demandez aux parents : <strong>« Réelle ou générée par IA ? »</strong> — puis cliquez sur Révéler.</p>
+          <div class="sim42-img-grid">${imgsHTML}</div>
+          <div class="sim42-tip trainer-only">
+            <h5>💬 Points de discussion pour l'animateur</h5>
+            <ul>
+              <li>• <strong>Les mains :</strong> souvent 6 doigts, jointures étranges.</li>
+              <li>• <strong>La lumière :</strong> trop parfaite, ombres incohérentes.</li>
+              <li>• <strong>Les arrière-plans :</strong> textes illisibles, zones qui « fondent ».</li>
+              <li>• <strong>Le grain :</strong> absence du bruit naturel des capteurs.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="sim42-panel-text" class="sim42-panel" style="display:none">
+          <p style="color:#666;font-size:13px;margin-bottom:4px">L'IA peut imiter le style — mais peut-elle capturer l'âme d'un auteur ?</p>
+          <div class="sim42-author-btns">${authorsHTML}</div>
+          <div id="sim42-noduel" style="border:2px dashed #e2e2e2;border-radius:12px;padding:32px;text-align:center;color:#aaa;font-size:14px">
+            Sélectionnez un auteur pour générer le duel de textes.
+          </div>
+          <div id="sim42-duel-wrap" style="display:none">
+            <div id="sim42-duel"></div>
+            <div id="sim42-analysis" class="sim42-analysis" style="display:none">
+              <div>
+                <h5 style="color:#f59e0b">🤖 Pourquoi l'IA est repérable</h5>
+                <p>L'IA « sur-joue » le style : elle accumule les images attendues, les adjectifs convenus. Le rythme est régulier, sans les ruptures propres à une pensée en mouvement.</p>
+              </div>
+              <div>
+                <h5 style="color:#10b981">✍️ Pourquoi l'humain gagne</h5>
+                <p>L'auteur choisit chaque mot avec une intention précise. Il y a une voix singulière, une économie de moyens qui porte du sens. Aucune décoration inutile.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>`;
+}
+
+function sim42Tab(tab) {
+  document.querySelectorAll('.sim42-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector('.sim42-tab[data-tab="' + tab + '"]').classList.add('active');
+  document.querySelectorAll('.sim42-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('sim42-panel-' + tab).style.display = 'block';
+}
+
+function sim42RevealImg(id) {
+  const overlay = document.getElementById('sim42-overlay-' + id);
+  const btn = document.getElementById('sim42-revbtn-' + id);
+  const showing = overlay.style.display === 'flex';
+  overlay.style.display = showing ? 'none' : 'flex';
+  btn.textContent = showing ? '👁 Révéler' : '🙈 Cacher';
+}
+
+function sim42GenerateText(authorKey) {
+  const author = sim42Authors[authorKey];
+  sim42CurrentOrder = Math.random() < 0.5 ? ['ai', 'real'] : ['real', 'ai'];
+  const labels = ['A', 'B'];
+  document.getElementById('sim42-noduel').style.display = 'none';
+  document.getElementById('sim42-duel-wrap').style.display = 'block';
+  document.getElementById('sim42-analysis').style.display = 'none';
+  document.getElementById('sim42-duel').innerHTML = `
+    <div style="position:relative;margin-bottom:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        ${sim42CurrentOrder.map((type, i) => `
+          <div class="sim42-text-card" id="sim42-textcard-${i}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <span style="background:#f3f4f6;color:#6b7280;padding:2px 10px;border-radius:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em">Extrait ${labels[i]}</span>
+              <span id="sim42-textlabel-${i}" style="display:none;font-size:12px;font-weight:700"></span>
+            </div>
+            <blockquote style="font-style:italic;font-size:15px;line-height:1.75;color:#374151;font-family:'Cormorant Garamond',serif;margin:0">
+              « ${author[type]} »
+            </blockquote>
+          </div>`).join('')}
+      </div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
+        <button class="sim42-reveal-btn" onclick="sim42RevealText()">RÉVÉLER</button>
+      </div>
+    </div>`;
+}
+
+function sim42RevealText() {
+  sim42CurrentOrder.forEach((type, i) => {
+    const card = document.getElementById('sim42-textcard-' + i);
+    const label = document.getElementById('sim42-textlabel-' + i);
+    card.style.borderTopColor = type === 'ai' ? '#f59e0b' : '#10b981';
+    label.style.display = 'block';
+    label.style.color = type === 'ai' ? '#d97706' : '#059669';
+    label.textContent = type === 'ai' ? '🤖 Généré par IA' : '✍️ Texte authentique';
+  });
+  const btnWrap = document.querySelector('#sim42-duel div[style*="position:absolute"]');
+  if (btnWrap) btnWrap.remove();
+  document.getElementById('sim42-analysis').style.display = 'grid';
 }
 
 // ══════════════════════════════════════════════
