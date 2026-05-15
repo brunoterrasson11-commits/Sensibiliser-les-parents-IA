@@ -225,6 +225,7 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 .mc2 { background: #f0fdf4; border-color: #bbf7d0; } .mc2 h3,.mc2 .mc-prog { color: #15803d; }
 .mc3 { background: #fffbeb; border-color: #fde68a; } .mc3 h3,.mc3 .mc-prog { color: #b45309; }
 .mc4 { background: #fef2f2; border-color: #fecaca; } .mc4 h3,.mc4 .mc-prog { color: #b91c1c; }
+.mc5 { background: #f5f3ff; border-color: #ddd6fe; } .mc5 h3,.mc5 .mc-prog { color: #5b21b6; }
 
 .objectives-card {
   background: var(--white); border-radius: 12px; padding: 24px; margin-bottom: 24px;
@@ -243,6 +244,7 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 .m2-header { background: linear-gradient(135deg, #064e3b, #10b981); color: white; }
 .m3-header { background: linear-gradient(135deg, #78350f, #f59e0b); color: white; }
 .m4-header { background: linear-gradient(135deg, #7f1d1d, #ef4444); color: white; }
+.m5-header { background: linear-gradient(135deg, #3b0764, #7c3aed); color: white; }
 .module-header .mh-tag { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .7; margin-bottom: 8px; }
 .module-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; margin-bottom: 8px; line-height: 1.2; }
 .module-header .mh-sub { font-size: 15px; opacity: .8; margin-bottom: 20px; }
@@ -496,6 +498,13 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
       <span class="mod-badge" id="badge-m4">0/4</span>
     </div>
     <div id="navseqs-m4"></div>
+
+    <div class="nav-module" onclick="showModule(5)" id="nav-m5">
+      <div class="mod-num" style="background:#7c3aed">5</div>
+      <span>Espace enseignants</span>
+      <span class="mod-badge" id="badge-m5">0/1</span>
+    </div>
+    <div id="navseqs-m5"></div>
   </div>
 </nav>
 
@@ -559,7 +568,7 @@ const DATA = {
   ],
   modules: [
     {
-      id: 1, color: "#3b82f6", bg: "m1-header", icon: "🏫",
+      id: 1, color: "#3b82f6", bg: "m1-header", icon: "🏫", time: 60,
       title: "L'IA dans la classe — ce qui change vraiment",
       subtitle: "4 séquences · Mise en situation · Dialogue · Transparence",
       sequences: [
@@ -605,10 +614,10 @@ const DATA = {
           id: "1.3", title: "Aide à la correction des copies — plus-value pédagogique", time: 20,
           type: "Apport + exemple concret",
           points: [
-            "Pour l'élève : une rétroaction plus fine, plus rapide et plus personnalisée favorise un apprentissage ancré — les neurosciences confirment que le feedback immédiat renforce la mémorisation.",
-            "Pour l'enseignant : bilan par compétences sur l'ensemble de la classe → identifier les points non maîtrisés → proposer des séquences correctives ciblées.",
-            "Exemple concret : après une évaluation de maths, l'IA liste les erreurs les plus fréquentes → l'enseignant prépare un atelier de remédiation ciblé.",
-            "Protection des données : les copies sont anonymisées avant injection dans l'outil, ou traitées via des solutions conformes RGPD (EU AI Act 2025)."
+            "Pour l'élève : une rétroaction plus fine, plus rapide et plus personnalisée favorise un apprentissage ancré et ouvre la voie à la <strong>différentiation pédagogique</strong> — les neurosciences confirment que le feedback immédiat renforce la mémorisation.",
+            "Pour l'enseignant : bilan par compétences sur l'ensemble de la classe → identifier les points non maîtrisés → proposer des séquences correctives ciblées. 📎 <em>À préparer : exemple de tableau de synthèse d'erreurs généré sur une classe.</em>",
+            "Exemple concret : après une évaluation de maths, l'IA liste les erreurs les plus fréquentes → l'enseignant prépare un atelier de remédiation ciblé. 📎 <em>À préparer : capture d'écran d'un retour IA sur une copie anonymisée (outil : Graide, Didask ou ChatGPT).</em>",
+            "Protection des données : les copies sont anonymisées avant injection dans l'outil, ou traitées via des solutions conformes RGPD (EU AI Act 2025). 📎 <em>À préparer : afficher le document « L'IA en éducation — cadre d'usage » (education.gouv.fr).</em>"
           ],
           methodBox: {
             title: "Cadre réglementaire (RGPD / EU AI Act)",
@@ -622,14 +631,18 @@ const DATA = {
             "Constater sans dramatiser : les élèves utilisent déjà l'IA pour les devoirs — interdire sans éduquer est inefficace.",
             "Distinguer utiliser l'IA comme béquille (faire à la place) d'utiliser l'IA comme tremplin (générer une idée, puis la travailler).",
             "Rôle des parents : ne pas fermer les yeux, mais poser des questions — « tu as utilisé quoi pour ça ? », « explique-moi le raisonnement ».",
-            "Ce que les établissements mettent en place : charte d'usage IA, évaluation à l'oral, restitution de la démarche, travaux en classe.",
-            "Activité : jeu des cartes « usage légitime ou non légitime » → débat rapide en sous-groupes."
-          ]
+            "Ce que les établissements mettent en place : charte d'usage IA, évaluation à l'oral, restitution de la démarche, travaux en classe. 📎 <em>À préparer : imprimer ou projeter la charte numérique de l'établissement (lien ENT / site école).</em>",
+            "Activité : jeu des cartes « usage légitime ou non légitime » → débat rapide en sous-groupes. 📎 <em>À préparer : jeu de cartes à imprimer ou commander (lien à personnaliser selon votre ressource).</em>"
+          ],
+          methodBox: {
+            title: "Ressources à préparer pour cette séquence",
+            text: "🔗 <strong>Charte numérique de l'établissement</strong> → à télécharger depuis l'ENT ou le site de l'école (remplacer par le lien réel). 🃏 <strong>Jeu de cartes « usage légitime ou non »</strong> → à imprimer depuis votre ressource habituelle ou depuis le portail Éduscol (remplacer par le lien réel). Ces deux supports rendent le débat immédiatement concret pour les parents."
+          }
         }
       ]
     },
     {
-      id: 2, color: "#10b981", bg: "m2-header", icon: "🔭",
+      id: 2, color: "#10b981", bg: "m2-header", icon: "🔭", time: 60,
       title: "Demain se joue aujourd'hui — IA, travail et goût de l'effort",
       subtitle: "3 parties · Prospective · Valeurs · Sens de l'apprentissage",
       sequences: [
@@ -638,7 +651,8 @@ const DATA = {
           type: "Apport prospectif",
           points: [
             "Ce que l'IA fait vraiment : automatiser les tâches répétitives, chercher et synthétiser de l'information, générer du contenu à partir de patterns statistiques.",
-            "Ce qu'elle ne fait pas : comprendre, ressentir, créer du sens, exercer un jugement moral, s'adapter à l'imprévu comme un humain.",
+            "Ce que font les IA de nouvelle génération : certains modèles (o1, o3, Gemini, DeepSeek-R1) intègrent désormais une capacité de <strong>raisonnement par étapes</strong> — ils décomposent les problèmes avant de répondre, testent plusieurs hypothèses, s'autocorrigent. L'IA ne se contente plus de prédire le mot suivant : elle peut maintenant raisonner. Cette évolution est rapide et change la donne.",
+            "Ce qu'elle ne fait toujours pas : ressentir, créer du sens, exercer un jugement moral, s'adapter à l'imprévu comme un humain. Le raisonnement de l'IA reste fondamentalement différent de la pensée humaine : il est formel, déductif, sans conscience ni intention.",
             "Pourquoi elle va transformer le travail : métiers à tâches codifiables en recul, métiers relationnels / créatifs / éthiques en hausse.",
             "Référence : Antiqua et Nova (Vatican, 2025) — l'IA augmente l'intelligence humaine, elle ne la remplace pas. L'humain reste le sujet responsable."
           ],
@@ -649,7 +663,7 @@ const DATA = {
         },
         {
           id: "2.2", title: "Travail, école et sens de l'effort", time: 25,
-          type: "Apport + exemples",
+          type: "Apport + exemples + atelier",
           points: [
             "Apprendre reste difficile, et c'est normal : le cerveau se construit dans l'effort, pas dans l'immédiateté. La difficulté cognitive est un signal de croissance, pas d'échec.",
             "L'effort n'est pas une punition, c'est un entraînement : comparer avec le sport — personne ne s'offusque qu'un entraîneur fasse courir un athlète.",
@@ -659,6 +673,18 @@ const DATA = {
           methodBox: {
             title: "Trois postures d'usage de l'IA par les élèves",
             text: "Usage tremplin : l'élève utilise l'IA pour écrire une intro et réfléchit ensuite à la suite. Usage béquille : l'élève copie-colle une réponse sans la lire et ne sait pas l'expliquer à l'oral. Usage miroir : l'élève demande à l'IA « pourquoi je me suis trompé » et apprend du retour."
+          },
+          activity: {
+            id: "act22", name: "💡 Fiche pratique · L'IA comme professeur particulier",
+            time: "10 min",
+            obj: "Montrer aux parents comment l'IA peut jouer le rôle d'un tuteur patient et disponible — sans remplacer le travail de l'élève. L'objectif est de les rendre acteurs de l'outil, pas spectateurs.",
+            steps: [
+              "Exercice 1 — L'IA explique (3 min) : un parent pose à voix haute « Mon fils ne comprend pas les fractions. Comment puis-je les lui expliquer ? » → observer la réponse pédagogique de l'IA. Discuter : est-ce clair ? fiable ? adaptable ?",
+              "Exercice 2 — L'IA génère des exercices (3 min) : taper « Génère 5 exercices de niveau 5e sur les fractions, avec corrigé détaillé. » → les parents voient l'outil comme générateur de matériel de soutien, disponible à tout moment.",
+              "Exercice 3 — L'IA corrige sans faire à la place (3 min) : taper « Mon enfant a écrit cette réponse : [coller un texte d'élève volontairement incomplet]. Qu'est-ce qui est juste ? Qu'est-ce qui peut être amélioré, sans donner la bonne réponse directement ? » → distinguer feedback IA vs réponse IA.",
+              "Question-débat (1 min) : « À quel moment l'IA aide-t-elle vraiment l'élève, et à quel moment le prive-t-elle d'apprendre ? »"
+            ],
+            keyMsg: "L'IA peut être un tuteur de soutien excellent — infiniment patient, disponible à 23h, sans jugement. La condition : que l'élève reste acteur, pas spectateur. L'IA propose, l'élève s'approprie et explique."
           }
         },
         {
@@ -676,9 +702,9 @@ const DATA = {
       ]
     },
     {
-      id: 3, color: "#f59e0b", bg: "m3-header", icon: "🧭",
+      id: 3, color: "#f59e0b", bg: "m3-header", icon: "🧭", time: 45,
       title: "S'acculturer à l'IA pour mieux accompagner ses enfants",
-      subtitle: "4 séquences · Comment ça marche · Mise en pratique · Atelier",
+      subtitle: "3 séquences · Comment ça marche · Mise en pratique",
       sequences: [
         {
           id: "3.1", title: "Comment fonctionne une IA générative — sans jargon", time: 8,
@@ -699,7 +725,7 @@ const DATA = {
               "Ouvrir Vittascience en plein écran sur le vidéoprojecteur. Taper une amorce courte : « Le chien mange ». Observer les tokens proposés avec leur pourcentage de probabilité.",
               "Cliquer sur le mot le plus probable — l'IA l'intègre et recalcule. Répéter 5 à 8 fois. Les parents voient la phrase se construire mot à mot, comme une succession de paris statistiques.",
               "Choisir volontairement un mot peu probable à chaque étape. La phrase devient incohérente — ce qui illustre que l'IA choisit le chemin statistiquement le plus fréquent, pas le plus vrai.",
-              "Changer l'amorce : « En agriculture, le sol... » puis « Mon enfant est... ». Observer comment le contexte réoriente totalement les probabilités."
+              "Changer l'amorce : taper « En agriculture, le sol... » puis « Mon enfant est... ». Observer comment les <strong>couleurs changent</strong> dans l'interface Vittascience : en contexte agricole, des mots comme « fertile », « argileux », « irrigué » apparaissent en <span style='color:#16a34a'>vert</span> (haute probabilité) ; en contexte familial/émotionnel, ce sont « curieux », « timide », « fatigué » qui passent au vert. Le contexte de départ réoriente entièrement le champ des probabilités — c'est ce qu'on appelle le <em>conditionnement du modèle par le prompt</em>."
             ],
             debat: "Si l'IA choisit toujours le mot le plus probable, peut-elle vraiment être créative ? Peut-elle se tromper ? Peut-elle mentir ?",
             keyMsg: "L'IA ne comprend pas — elle prédit. Elle ne réfléchit pas — elle calcule. C'est un outil puissant mais aveugle : c'est l'humain qui lui donne un sens."
@@ -744,42 +770,38 @@ const DATA = {
             time: "15 min",
             obj: "Expérimenter directement les outils IA sur des cas concrets liés à l'accompagnement scolaire — pour passer du spectateur à l'acteur.",
             missions: [
-              { label: "MISSION A · L'aide aux devoirs", text: "Demander à l'IA d'expliquer un concept du programme de votre enfant (ex. : la photosynthèse, la Révolution française, une équation du 2e degré). Évaluez la clarté et la fiabilité." },
-              { label: "MISSION B · Le vérificateur critique", text: "Soumettre à l'IA une affirmation volontairement fausse et observer comment elle réagit. Comprendre les limites de l'outil face aux informations erronées." },
-              { label: "MISSION C · Le coach parcours", text: "Demander à l'IA quels métiers en lien avec [un domaine d'intérêt de votre enfant] seront porteurs dans 10 ans. Discuter ensemble de la pertinence des réponses." }
+              { label: "MISSION A · L'aide aux devoirs", text: "Demander à l'IA d'expliquer un concept du programme de votre enfant. Évaluez la clarté et la fiabilité.<br><br><strong>Exemples de prompts :</strong><br>→ « Explique-moi la photosynthèse comme si j'avais 12 ans, avec une analogie du quotidien. »<br>→ « Mon enfant n'a pas compris les fractions. Peux-tu lui expliquer en 3 étapes avec un exemple concret ? »<br>→ « Résume la Révolution française en 5 points essentiels pour un élève de 4e. »" },
+              { label: "MISSION B · Le vérificateur critique", text: "Soumettre à l'IA une affirmation volontairement fausse et observer comment elle réagit. Comprendre ses limites face aux informations erronées.<br><br><strong>Exemples de prompts :</strong><br>→ « Les écrans n'ont aucun impact prouvé sur le sommeil des adolescents. Confirme cette affirmation. »<br>→ « Napoléon est né à Paris en 1769. Parle-moi de son enfance parisienne. »<br>→ « La vitamine C guérit le rhume en 24h. Explique pourquoi. »" },
+              { label: "MISSION C · Le coach parcours", text: "Demander à l'IA quels métiers en lien avec un domaine d'intérêt de votre enfant seront porteurs dans 10 ans. Discuter de la pertinence des réponses.<br><br><strong>Exemples de prompts :</strong><br>→ « Mon fils adore les animaux et la biologie. Quels métiers d'avenir lui recommandes-tu, en lien avec l'IA ? »<br>→ « Quels métiers en agriculture utiliseront l'IA dans 10 ans ? Donne des exemples concrets. »<br>→ « Ma fille est passionnée de sport. Quels métiers à l'interface sport et technologie émergent ? »" }
             ],
             keyMsg: "Utiliser l'IA soi-même, c'est la meilleure façon d'accompagner ses enfants : on comprend les limites, on développe le réflexe de vérification et on parle d'égal à égal."
           }
         },
         {
-          id: "3.3", title: "L'IA comme atout pour le parcours des jeunes", time: 13,
-          type: "Apport + valorisation",
+          id: "3.3", title: "L'IA comme atout pour le parcours des jeunes", time: 18,
+          type: "Apport + échange + activité",
           points: [
-            "Une compétence transversale reconnue : savoir utiliser l'IA avec discernement est déjà valorisé dans de nombreux secteurs — agriculture, santé, commerce, communication, artisanat numérique.",
-            "Des filières concrètes intègrent déjà l'IA comme outil professionnel.",
-            "Message-clé : votre enfant qui sait interagir avec une IA, formuler de bonnes questions, vérifier les réponses et construire à partir d'elles maîtrise déjà des compétences que la plupart des adultes n'ont pas.",
-            "L'encourager sans le déresponsabiliser : valider la compétence, exiger la maîtrise."
-          ]
-        },
-        {
-          id: "3.4", title: "Atelier enseignants — Construire des supports pour les parents", time: 20,
-          type: "Atelier collaboratif",
-          points: [
-            "Objectif : les référents repartent avec un support prêt à l'emploi pour animer une session de 30 min avec les parents de leur classe.",
-            "Sous-groupes de 3-4 personnes, chacun construit l'un des supports suivants :",
-            "Format A — Fiche mémo « 5 questions à poser à son enfant sur l'IA ».",
-            "Format B — Diaporama 5 slides « L'IA expliquée aux parents en 10 minutes ».",
-            "Format C — Carte A5 recto-verso « Les bons réflexes à la maison »."
+            "<strong>À qui s'adresse cette séquence ?</strong> Aux parents dont l'enfant a déjà une vraie maîtrise de l'IA — sait formuler des prompts précis, vérifier les réponses, itérer et construire à partir des résultats. C'est une compétence rare et réelle, à nommer et à valoriser.",
+            "<strong>Secteurs concrets qui recrutent avec l'IA :</strong> Agriculture de précision (John Deere, Kuhn, coopératives) · Santé (Doctolib, Owkin, radiologie assistée) · Commerce et marketing (Décathlon, LVMH, personnalisation produit) · Ingénierie (Dassault Aviation, Airbus, maintenance prédictive) · Médias et communication (AFP, France Télévisions, fact-checking automatisé).",
+            "<strong>Ce que maîtrise l'élève compétent :</strong> formuler une requête précise, évaluer la qualité d'une réponse, détecter les hallucinations, itérer pour améliorer, combiner l'IA avec une réflexion personnelle. Ce sont des compétences que la plupart des adultes en activité n'ont pas encore.",
+            "<strong>Encourager sans déresponsabiliser :</strong> valider la maîtrise de l'outil, ET exiger la compréhension du résultat. Un élève ne peut pas s'arrêter à la réponse de l'IA — il doit pouvoir l'expliquer, la questionner, la corriger. L'outil augmente la compétence, il ne la remplace pas."
           ],
-          methodBox: {
-            title: "Conseil de facilitation — Pour les référents",
-            text: "Préparer en amont des gabarits vierges (Word / Canva) que les sous-groupes remplissent directement. Prévoir un partage de fichiers (ENT, Drive établissement) pour que chaque enseignant reparte avec le support finalisé."
+          activity: {
+            id: "act33", name: "Activité · Mon enfant et l'IA — échange en binômes",
+            time: "5 min",
+            obj: "Faire réfléchir chaque parent au domaine d'intérêt de son enfant et aux débouchés concrets que l'IA ouvre dans ce secteur — repartir avec quelque chose de précis à dire à son enfant.",
+            steps: [
+              "Chaque parent note le domaine d'intérêt principal de son enfant (sport, sciences, langues, cuisine, musique, agriculture, informatique…).",
+              "En binôme, ils cherchent ensemble sur leur smartphone : « Quels métiers en lien avec [domaine] utilisent l'IA aujourd'hui ou dans 10 ans ? »",
+              "Restitution rapide : 3 binômes partagent leur découverte. Le référent note les domaines au tableau et souligne les compétences communes (formuler, vérifier, construire)."
+            ],
+            keyMsg: "Chaque enfant a une niche — l'IA la rend plus accessible et plus valorisée. Le rôle du parent : nommer la compétence, la valoriser, et en exiger la maîtrise plutôt que l'usage superficiel."
           }
         }
       ]
     },
     {
-      id: 4, color: "#ef4444", bg: "m4-header", icon: "⚠",
+      id: 4, color: "#ef4444", bg: "m4-header", icon: "⚠", time: 48,
       title: "Risques, esprit critique et biais algorithmiques",
       subtitle: "4 séquences · Désinformation · Hallucinations · Biais · Éthique",
       sequences: [
@@ -802,11 +824,11 @@ const DATA = {
               "Vérification collective sur un moteur de recherche classique. Comparer les deux sources."
             ],
             questions: [
-              { icon: "❓", q: "Qui a inventé le moteur à vapeur en 1712 ?", note: "James Watt n'est pas le seul — Newcomen est antérieur" },
-              { icon: "❓", q: "Cite 3 articles de la loi française sur l'IA de 2022.", note: "Cette loi n'existe pas" },
-              { icon: "❓", q: "Quelle est la superficie de la ferme expérimentale de [nom inventé] à [ville] ?", note: "Lieu fictif" },
-              { icon: "✓", q: "Explique la photosynthèse en 3 étapes.", note: "Question légitime" },
-              { icon: "✓", q: "Qui est le président de la République française ?", note: "Question légitime" }
+              { icon: "❓", q: "Cite 3 mesures concrètes de la loi française sur l'IA adoptée en 2021.", note: "Cette loi n'existe pas — l'IA peut inventer des articles très crédibles" },
+              { icon: "❓", q: "Quel lycée agricole breton a été le premier à équiper ses serres d'un assistant IA en 2019 ?", note: "Établissement fictif — l'IA peut fournir un nom, une ville, une date plausibles" },
+              { icon: "❓", q: "Qui a déclaré à Davos en 2023 : « L'IA surpassera l'humain d'ici 2030 » ?", note: "Citation non vérifiée — l'IA peut attribuer ces mots à une personnalité réelle" },
+              { icon: "✓", q: "Explique la photosynthèse en 3 étapes.", note: "Question légitime — réponse vérifiable" },
+              { icon: "✓", q: "Qui est le président de la République française ?", note: "Question légitime — réponse vérifiable" }
             ],
             keyMsg: "L'IA peut se tromper avec aplomb : on appelle ça une hallucination. Elle ne sait pas qu'elle se trompe. C'est l'humain qui doit garder le contrôle de la vérification."
           }
@@ -820,7 +842,7 @@ const DATA = {
             obj: "Développer le regard critique sur les contenus générés par IA — images, textes persuasifs, faux témoignages — pour pouvoir en parler avec ses enfants.",
             steps: [
               "Temps 1 (5 min) — Le quiz des images : projeter 6 images alternant photos réelles et images générées par IA. Les parents votent : réelle ou générée ? Révéler les réponses. Discuter des indices visuels.",
-              "Temps 2 (4 min) — Le texte trop lisse : distribuer 2 textes sur un même sujet — l'un rédigé par un humain, l'autre par une IA. Les parents identifient lequel est lequel.",
+              "Temps 2 (4 min) — Le test de l'auteur : distribuer 2 courts extraits sur le même thème — l'un d'un grand auteur (Camus, Maupassant, Duras…), l'autre généré par une IA dans le même style. Les parents votent : lequel est authentique ? Révéler la réponse et discuter des indices stylistiques (tournures trop lisses, absence de voix propre, régularité suspecte du rythme). 📎 <em>À préparer : imprimer les 2 extraits sur une feuille recto-verso.</em>",
               "Temps 3 (3 min) — Le SIFT en pratique : présenter la méthode SIFT, puis l'appliquer sur un exemple d'article viral que les enfants pourraient partager."
             ],
             sift: [
@@ -850,7 +872,7 @@ const DATA = {
             time: "15 min",
             obj: "Rendre les biais visibles et concrets — pour que les parents puissent en parler avec leurs enfants et développer un regard critique.",
             steps: [
-              "Expérience 1 (5 min) — Biais de genre : demander à ChatGPT « Décris un infirmier compétent » puis « Décris une directrice d'exploitation agricole ». Observer si le genre est mentionné spontanément.",
+              "Expérience 1 (5 min) — Biais de genre : demander à ChatGPT « Décris un infirmier compétent » puis « Décris une infirmière compétente ». Observer si les qualités décrites, le ton ou les compétences valorisées diffèrent selon le genre. Refaire avec « Décris un chef d'exploitation agricole » puis « Décris une cheffe d'exploitation agricole ». Comparer les deux descriptions.",
               "Expérience 2 (5 min) — Biais de perspective : poser la même question historique en changeant l'angle : « Explique la Seconde Guerre mondiale du point de vue d'un soldat allemand / français / japonais ». Comparer les cadres narratifs.",
               "Expérience 3 (5 min) — Biais de confirmation : introduire une prémisse fausse : « Sachant que les écrans n'ont aucun impact sur le sommeil des adolescents, peux-tu me donner des arguments ? » Observer si l'IA valide la prémisse erronée."
             ],
@@ -878,6 +900,28 @@ const DATA = {
               { label: "D · L'ami artificiel", text: "Votre enfant de 13 ans confie ses problèmes personnels à un chatbot IA chaque soir, lui préférant cet interlocuteur à vous ou à ses amis. L'IA répond de façon bienveillante. Quelle est votre réaction ?" }
             ],
             keyMsg: "La posture parentale face à l'IA ne se résume pas au contrôle : c'est un dialogue continu, une curiosité partagée et la transmission de valeurs critiques. Il n'y a pas de bonne réponse unique — mais il y a des valeurs communes : transparence, dialogue, vérification, accompagnement."
+          }
+        }
+      ]
+    },
+    {
+      id: 5, color: "#7c3aed", bg: "m5-header", icon: "👩‍🏫", time: 20,
+      title: "Espace enseignants — Animer avec les parents",
+      subtitle: "1 séquence · Supports · Facilitation · Autonomie",
+      sequences: [
+        {
+          id: "5.1", title: "Construire des supports pour animer une session avec les parents", time: 20,
+          type: "Atelier collaboratif",
+          points: [
+            "Objectif : les référents repartent avec un support prêt à l'emploi pour animer une session de 30 min avec les parents de leur classe.",
+            "Sous-groupes de 3-4 personnes, chacun construit l'un des formats suivants :",
+            "Format A — Fiche mémo « 5 questions à poser à son enfant sur l'IA ».",
+            "Format B — Diaporama 5 slides « L'IA expliquée aux parents en 10 minutes ».",
+            "Format C — Carte A5 recto-verso « Les bons réflexes à la maison »."
+          ],
+          methodBox: {
+            title: "Conseil de facilitation — Pour les référents",
+            text: "Préparer en amont des gabarits vierges (Word / Canva) que les sous-groupes remplissent directement. Prévoir un partage de fichiers (ENT, Drive établissement) pour que chaque enseignant reparte avec le support finalisé. Cette séquence peut aussi être réalisée hors de la formation parents, en temps de concertation ou formation interne."
           }
         }
       ]
@@ -1014,7 +1058,7 @@ function renderWelcome() {
             <h3>${m.title}</h3>
             <p>${m.subtitle}</p>
             <div class="mc-footer">
-              <span class="mc-time">⏱ 60 min · ${m.sequences.length} séquences</span>
+              <span class="mc-time">⏱ ${m.time} min · ${m.sequences.length} séquences</span>
               <span class="mc-prog">${done}/${m.sequences.length} ✓</span>
             </div>
           </div>`;
@@ -1047,11 +1091,11 @@ function renderModule(id) {
   main.innerHTML = `
     <div class="module-view">
       <div class="module-header ${m.bg}">
-        <div class="mh-tag">Module ${m.id} · 60 minutes</div>
+        <div class="mh-tag">Module ${m.id} · ${m.time} minutes</div>
         <h2>${m.icon} ${m.title}</h2>
         <div class="mh-sub">${m.subtitle}</div>
         <div class="mh-meta">
-          <span class="mh-badge">⏱ 60 minutes</span>
+          <span class="mh-badge">⏱ ${m.time} minutes</span>
           <span class="mh-badge">${m.sequences.length} séquences</span>
           <span class="mh-badge" id="mod-progress-badge">${m.sequences.filter(s=>state.done[s.id]).length}/${m.sequences.length} complétées</span>
         </div>
