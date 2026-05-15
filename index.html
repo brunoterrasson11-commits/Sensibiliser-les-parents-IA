@@ -754,7 +754,7 @@ const DATA = {
         },
         {
           id: "1.4", title: "Les élèves et l'IA — entre aide et triche ?", time: 15,
-          type: "Débat guidé",
+          type: "Débat guidé", usageScale: true,
           points: [
             "Constater sans dramatiser : les élèves utilisent déjà l'IA pour les devoirs — interdire sans éduquer est inefficace.",
             "Distinguer utiliser l'IA comme béquille (faire à la place) d'utiliser l'IA comme tremplin (générer une idée, puis la travailler).",
@@ -1268,7 +1268,8 @@ function renderSequence(s, color) {
   const note = state.notes[s.id] || '';
 
   let actHTML = '';
-  if (s.sim42) actHTML = renderSim42();
+  if (s.usageScale) actHTML += renderUsageScale();
+  if (s.sim42) actHTML += renderSim42();
   if (s.activity) actHTML += renderActivity(s.activity, color);
   if (s.activity2) actHTML += renderActivity(s.activity2, color);
   if (s.activity3) actHTML += renderActivity(s.activity3, color);
@@ -1400,6 +1401,77 @@ function renderActivity(a, color) {
         ${debat6HTML}
         ${a.matériel ? `<div style="font-size:14px;color:#888;margin-top:10px">📦 <strong>Matériel :</strong> ${a.matériel}</div>` : ''}
         ${a.keyMsg ? `<div class="key-message"><span class="km-icon">💡</span><span class="km-text">${a.keyMsg}</span></div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// ÉCHELLE D'USAGE IA — 1.4
+// ══════════════════════════════════════════════
+
+function renderUsageScale() {
+  const levels = [
+    {
+      bg: '#1e1e2e', border: '#ef4444',
+      title: "⚠ L'IA fait tout le travail à la place de l'élève",
+      items: ["Aucune réflexion de l'élève sur le sujet"]
+    },
+    {
+      bg: '#2d1b4e', border: '#7c3aed',
+      title: "L'IA assiste fortement l'élève",
+      items: [
+        "L'IA écrit le contenu, mais l'élève le modifie en fonction des apprentissages",
+        "L'élève réécrit le texte généré par l'IA avec ses propres améliorations",
+        "L'IA produit plusieurs versions et l'élève choisit les meilleures parties",
+        "L'élève rédige les points clés, mais l'IA rédige le brouillon"
+      ]
+    },
+    {
+      bg: '#3b1f6b', border: '#8B2FC9',
+      title: "L'IA joue un rôle de guide",
+      items: [
+        "L'IA aide l'élève comme un « coach en écriture »",
+        "L'élève écrit jusqu'à un blocage et demande de l'aide à l'IA",
+        "L'élève et l'IA rédigent chacun un brouillon, puis l'élève sélectionne les meilleures idées"
+      ]
+    },
+    {
+      bg: '#4a2780', border: '#a855f7',
+      title: "L'élève utilise l'IA pour la recherche et l'inspiration",
+      items: [
+        "L'élève recueille des informations via l'IA",
+        "L'élève consulte l'IA pour des idées d'écriture, mais crée son propre contenu"
+      ]
+    },
+    {
+      bg: '#1e1e3f', border: '#c4b5fd',
+      title: "L'élève travaille de manière totalement autonome",
+      items: [
+        "L'élève rédige seul et utilise l'IA uniquement pour une relecture et des suggestions",
+        "L'élève réalise tout son travail sans assistance de l'IA, d'internet ou d'autres outils"
+      ]
+    }
+  ];
+
+  const levelsHTML = levels.map(l => `
+    <div style="background:${l.bg};border-left:4px solid ${l.border};border-radius:8px;padding:11px 14px;margin-bottom:4px">
+      <div style="font-weight:700;font-size:13px;color:white;margin-bottom:${l.items.length > 1 ? '7px' : '0'}">${l.title}</div>
+      ${l.items.length ? `<div style="font-size:12px;color:rgba(255,255,255,.78);line-height:1.55">
+        ${l.items.map(i => `<div style="display:flex;gap:6px;margin-bottom:2px"><span style="flex-shrink:0;color:rgba(255,255,255,.4)">›</span><span>${i}</span></div>`).join('')}
+      </div>` : ''}
+    </div>`).join('');
+
+  return `
+    <div style="margin:20px 0">
+      <div style="font-size:12px;font-weight:700;color:#8B2FC9;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Échelle d'usage de l'IA par l'élève</div>
+      <div style="display:flex;gap:14px;align-items:stretch">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;width:32px">
+          <div style="font-size:10px;font-weight:800;color:#ef4444;text-transform:uppercase;letter-spacing:.05em;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">L'IA crée</div>
+          <div style="flex:1;width:6px;background:linear-gradient(to bottom,#3b0764,#7c3aed,#d4a8f0);border-radius:3px"></div>
+          <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #d4a8f0"></div>
+          <div style="font-size:10px;font-weight:800;color:#d4a8f0;text-transform:uppercase;letter-spacing:.05em;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">L'élève crée</div>
+        </div>
+        <div style="flex:1">${levelsHTML}</div>
       </div>
     </div>`;
 }
