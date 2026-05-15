@@ -626,6 +626,12 @@ const DATA = {
     "Aider les familles à construire une posture éclairée vis-à-vis de l'IA au sein du foyer",
     "S'appuyer sur les textes de référence (EU AI Act 2025, cadre ministériel, Antiqua et Nova)"
   ],
+  parentObjectives: [
+    "Comprendre comment l'IA fonctionne réellement — sans jargon ni catastrophisme",
+    "Identifier les usages de l'IA à l'école et leurs enjeux pour vous et vos enfants",
+    "Développer des repères concrets pour en parler et agir à la maison",
+    "Construire une posture éclairée, fondée sur des textes de référence actuels"
+  ],
   modules: [
     {
       id: 1, color: "#3b82f6", bg: "m1-header", icon: "🏫", time: 60,
@@ -663,9 +669,10 @@ const DATA = {
             "Réalité concrète : certains enseignants utilisent l'IA pour reformuler, améliorer le style ou enrichir une appréciation déjà rédigée.",
             "Ce qui ne change pas : le jugement professionnel de l'enseignant sur l'élève reste la source unique et inaliénable de l'appréciation.",
             "Pourquoi l'IA peut aider : clarté de la formulation, cohérence sur l'ensemble d'une classe, gain de temps.",
-            "Ce qu'il faut dire aux parents : la communication des établissements doit être proactive — cacher cet usage serait contre-productif."
+            "La transparence des établissements sur leurs usages de l'IA est primordiale : informés, les parents deviennent des partenaires plutôt que des spectateurs surpris."
           ],
           methodBox: {
+            trainerOnly: true,
             title: "Posture de l'établissement",
             text: "Recommander aux équipes de mentionner dans la charte numérique ou en réunion de rentrée les usages pédagogiques de l'IA. La transparence prévient les malentendus : un parent averti comprend, un parent surpris se méfie."
           }
@@ -737,7 +744,7 @@ const DATA = {
           activity: {
             id: "act22", name: "💡 Fiche pratique · L'IA comme professeur particulier",
             time: "10 min",
-            obj: "Montrer aux parents comment l'IA peut jouer le rôle d'un tuteur patient et disponible — sans remplacer le travail de l'élève. L'objectif est de les rendre acteurs de l'outil, pas spectateurs.",
+            obj: "Découvrir comment l'IA peut jouer le rôle d'un tuteur patient et disponible — sans remplacer le travail de l'élève. L'objectif : devenir acteur de l'outil, pas spectateur.",
             steps: [
               "Exercice 1 — L'IA explique (3 min) : un parent pose à voix haute « Mon fils ne comprend pas les fractions. Comment puis-je les lui expliquer ? » → observer la réponse pédagogique de l'IA. Discuter : est-ce clair ? fiable ? adaptable ?",
               "Exercice 2 — L'IA génère des exercices (3 min) : taper « Génère 5 exercices de niveau 5e sur les fractions, avec corrigé détaillé. » → les parents voient l'outil comme générateur de matériel de soutien, disponible à tout moment.",
@@ -794,7 +801,7 @@ const DATA = {
             id: "act2", name: "Activité 2 · Visualiser les phases de fonctionnement d'une IA",
             time: "12 min",
             obj: "Observer en direct les 4 phases de traitement d'une IA pour comprendre que la valeur ajoutée humaine reste indispensable : le prompt pilote tout le résultat.",
-            outil: "ChatGPT, Copilot ou tout LLM accessible — le référent projette en temps réel pendant que les parents observent.",
+            outil: "ChatGPT, Copilot ou tout LLM accessible — l'IA est projetée en temps réel sur l'écran pour observation collective.",
             steps: [
               "Phase 1 · Analyse du prompt — Taper : « Rédige une appréciation bienveillante pour un élève de 3e qui a progressé en maths mais manque encore de rigueur dans la rédaction. » Commenter : l'IA décompose la demande en sous-objectifs (ton, niveau, sujet, contrainte).",
               "Phase 2 · Génération progressive — Observer le texte apparaître mot par mot (streaming) — faire remarquer que l'IA n'a pas réfléchi à l'avance : elle génère en temps réel, token après token.",
@@ -813,7 +820,7 @@ const DATA = {
               { label: "2 · Sans rôle vs avec rôle", a: "Donne-moi des conseils pour mon enfant en difficulté scolaire.", b: "Tu es conseiller pédagogique. Mon fils de 14 ans est en difficulté en lecture. Propose 3 stratégies adaptées à un adolescent." },
               { label: "3 · Sans contrainte vs avec contrainte", a: "Rédige une lettre de motivation.", b: "Rédige une lettre de motivation pour un BTS Agronomie, ton enthousiaste, 200 mots maximum, sans clichés." }
             ],
-            synthese: "Chaque binôme partage la différence la plus frappante. Le référent synthétise au tableau : contexte + rôle + contrainte = prompt efficace.",
+            synthese: "Chaque binôme partage la différence la plus frappante — à retenir : contexte + rôle + contrainte = prompt efficace.",
             keyMsg: "Un enfant qui sait formuler un bon prompt n'est pas en train de tricher — il maîtrise une compétence de communication précise et transférable."
           }
         },
@@ -849,11 +856,11 @@ const DATA = {
           activity: {
             id: "act33", name: "Activité · Mon enfant et l'IA — échange en binômes",
             time: "5 min",
-            obj: "Faire réfléchir chaque parent au domaine d'intérêt de son enfant et aux débouchés concrets que l'IA ouvre dans ce secteur — repartir avec quelque chose de précis à dire à son enfant.",
+            obj: "Relier le domaine d'intérêt de votre enfant aux débouchés concrets que l'IA ouvre dans ce secteur — repartir avec quelque chose de précis à lui dire.",
             steps: [
               "Chaque parent note le domaine d'intérêt principal de son enfant (sport, sciences, langues, cuisine, musique, agriculture, informatique…).",
               "En binôme, ils cherchent ensemble sur leur smartphone : « Quels métiers en lien avec [domaine] utilisent l'IA aujourd'hui ou dans 10 ans ? »",
-              "Restitution rapide : 3 binômes partagent leur découverte. Le référent note les domaines au tableau et souligne les compétences communes (formuler, vérifier, construire)."
+              "Restitution rapide : 3 binômes partagent leur découverte — les compétences clés qui émergent : formuler, vérifier, construire."
             ],
             keyMsg: "Chaque enfant a une niche — l'IA la rend plus accessible et plus valorisée. Le rôle du parent : nommer la compétence, la valoriser, et en exiger la maîtrise plutôt que l'usage superficiel."
           }
@@ -952,7 +959,7 @@ const DATA = {
           activity: {
             id: "act7", name: "Activité 7 · Le dilemme éthique — débat structuré",
             time: "20 min",
-            obj: "Confronter les parents à des situations réelles ou plausibles pour construire collectivement une posture éclairée vis-à-vis de l'IA dans la vie de leur enfant.",
+            obj: "Explorer des situations réelles ou plausibles pour construire collectivement une posture éclairée vis-à-vis de l'IA dans la vie de vos enfants.",
             scenarios: [
               { label: "A · Le devoir fantôme", text: "Votre enfant de 15 ans rend un devoir entièrement rédigé par une IA. Il maîtrise parfaitement le sujet à l'oral mais n'a pas rédigé une ligne. Est-ce une triche ? Que lui dites-vous ?" },
               { label: "B · Le diagnostic", text: "Votre enfant consulte une IA pour des symptômes inquiétants et lui fait confiance sans consulter de médecin. L'IA a fourni une réponse rassurante mais incomplète. Que pensez-vous de cette situation ?" },
@@ -1116,20 +1123,20 @@ function renderWelcome() {
     <div class="welcome">
       <div class="welcome-hero">
         <div class="welcome-tag">Formation · SOPHIAE</div>
-        <h1>Sensibiliser les parents<br>à l'intelligence artificielle</h1>
-        <p>Un programme clé en main pour les référents numériques qui accompagneront les familles dans la compréhension des usages de l'IA à l'école et en dehors.</p>
+        <h1>${state.mode === 'parents' ? 'L\'intelligence artificielle<br>et vos enfants' : 'Sensibiliser les parents<br>à l\'intelligence artificielle'}</h1>
+        <p>${state.mode === 'parents' ? 'Comprendre les usages de l\'IA à l\'école et dans la vie quotidienne — pour accompagner vos enfants avec confiance et esprit critique.' : 'Un programme clé en main pour les référents numériques qui accompagneront les familles dans la compréhension des usages de l\'IA à l\'école et en dehors.'}</p>
         <div class="welcome-meta">
           <div class="welcome-meta-item"><span>⏱</span> 3 heures · 4 modules</div>
           <div class="welcome-meta-item"><span>🎯</span> 15 séquences interactives</div>
           <div class="welcome-meta-item"><span>📋</span> 7 fiches activités</div>
-          <div class="welcome-meta-item"><span>💡</span> Autonomie totale</div>
+          <div class="welcome-meta-item"><span>💡</span> ${state.mode === 'parents' ? 'Pour toute la famille' : 'Autonomie totale'}</div>
         </div>
       </div>
 
       <div class="objectives-card">
-        <h3>Objectifs de la formation</h3>
+        <h3>${state.mode === 'parents' ? 'Ce que vous allez découvrir' : 'Objectifs de la formation'}</h3>
         <ul>
-          ${DATA.objectives.map(o => `<li><span class="arrow">→</span><span>${o}</span></li>`).join('')}
+          ${(state.mode === 'parents' ? DATA.parentObjectives : DATA.objectives).map(o => `<li><span class="arrow">→</span><span>${o}</span></li>`).join('')}
         </ul>
       </div>
 
@@ -1200,7 +1207,7 @@ function renderSequence(s, color) {
   if (s.activity3) actHTML += renderActivity(s.activity3, color);
   let methodHTML = '';
   if (s.methodBox) {
-    const isTrainerOnly = /référent|facilitation|Ressources à préparer|Animation recommandée/i.test(s.methodBox.title);
+    const isTrainerOnly = s.methodBox.trainerOnly || /référent|facilitation|Ressources à préparer|Animation recommandée/i.test(s.methodBox.title);
     methodHTML = `
     <div class="method-box${isTrainerOnly ? ' trainer-only' : ''}">
       <div class="mb-title">${s.methodBox.title}</div>
@@ -1246,7 +1253,10 @@ function renderSequence(s, color) {
 
 function renderActivity(a, color) {
   let stepsHTML = '';
-  if (a.steps) stepsHTML = `<ol class="steps-list">${a.steps.map(st => `<li>${fmt(st)}</li>`).join('')}</ol>`;
+  if (a.steps) stepsHTML = `<ol class="steps-list">${a.steps.map(st => {
+    const isTrainer = /[Ll]e référent/.test(st);
+    return `<li${isTrainer ? ' class="trainer-only"' : ''}>${fmt(st)}</li>`;
+  }).join('')}</ol>`;
 
   let questionsHTML = '';
   if (a.questions) questionsHTML = `
