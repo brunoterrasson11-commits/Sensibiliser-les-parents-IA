@@ -490,6 +490,49 @@ body[data-mode="parents"] .seq-type { display: none; }
 .sim42-analysis { background:var(--dark); color:white; border-radius:12px; padding:20px; margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .sim42-analysis h5 { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
 .sim42-analysis p { font-size:13px; line-height:1.65; color:#ccc; }
+/* ── Jeu de cartes 1.4 ── */
+.sim14-wrap { margin:20px 0; background:#f8fafc; border:1.5px solid var(--border); border-radius:16px; padding:20px; }
+.sim14-header { text-align:center; margin-bottom:16px; }
+.sim14-header h3 { font-size:17px; font-weight:700; color:var(--dark); }
+.sim14-header p { font-size:13px; color:var(--grey); margin-top:4px; }
+.sim14-progress-wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:10px; }
+.sim14-progress-text { font-size:12px; font-weight:600; color:var(--grey); white-space:nowrap; }
+.sim14-progress-bar { flex:1; height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden; }
+.sim14-progress-fill { height:100%; background:var(--purple); border-radius:3px; transition:width .3s; }
+.sim14-game-area { perspective:1000px; width:100%; aspect-ratio:3/4; position:relative; max-width:300px; margin:16px auto; }
+.sim14-card { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .6s; cursor:pointer; }
+.sim14-card.flipped { transform:rotateY(180deg); }
+@keyframes sim14Left { to { transform:translateX(-150%) rotate(-20deg); opacity:0; } }
+@keyframes sim14Right { to { transform:translateX(150%) rotate(20deg); opacity:0; } }
+.sim14-card.swipe-left { animation:sim14Left .5s forwards; }
+.sim14-card.swipe-right { animation:sim14Right .5s forwards; }
+.sim14-face { backface-visibility:hidden; position:absolute; inset:0; border-radius:20px; padding:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.sim14-front { background:white; border:2px solid var(--border); box-shadow:0 4px 20px rgba(0,0,0,.07); }
+.sim14-back { background:#1e293b; transform:rotateY(180deg); }
+.sim14-front-icon { background:#ede9fe; color:var(--purple); width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px; }
+.sim14-front p { font-size:15px; font-weight:600; color:var(--dark); line-height:1.55; }
+.sim14-hint-label { font-size:12px; font-weight:700; color:#60a5fa; margin-bottom:10px; text-transform:uppercase; letter-spacing:.06em; }
+.sim14-back p { font-size:14px; color:white; line-height:1.65; }
+.sim14-flip-btn { margin-top:18px; padding:6px 14px; background:rgba(255,255,255,.1); border:none; border-radius:8px; color:white; font-size:12px; cursor:pointer; font-family:'Jost',sans-serif; transition:background .2s; }
+.sim14-flip-btn:hover { background:rgba(255,255,255,.2); }
+.sim14-actions { display:flex; gap:10px; max-width:300px; margin:0 auto; }
+.sim14-btn { flex:1; padding:13px; border:none; border-radius:14px; font-size:13px; font-weight:700; font-family:'Jost',sans-serif; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; transition:transform .15s; }
+.sim14-btn:active { transform:scale(.95); }
+.sim14-btn-no { background:#ef4444; color:white; }
+.sim14-btn-no:hover { background:#dc2626; }
+.sim14-btn-yes { background:#10b981; color:white; }
+.sim14-btn-yes:hover { background:#059669; }
+.sim14-finish { text-align:center; padding:28px; display:none; }
+.sim14-finish h3 { font-size:18px; font-weight:700; margin:10px 0 8px; color:var(--dark); }
+.sim14-finish p { font-size:13px; color:var(--grey); margin-bottom:18px; line-height:1.6; }
+.sim14-restart-btn { background:var(--purple); color:white; border:none; padding:9px 22px; border-radius:20px; font-size:13px; font-weight:700; font-family:'Jost',sans-serif; cursor:pointer; }
+.sim14-restart-btn:hover { opacity:.9; }
+.sim14-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:9999; pointer-events:none; opacity:0; transition:opacity .3s; padding:20px; }
+.sim14-overlay.visible { opacity:1; }
+.sim14-fb-card { background:white; padding:24px; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.25); border:4px solid; max-width:300px; text-align:center; }
+.sim14-fb-icon { font-size:32px; margin-bottom:6px; }
+.sim14-fb-title { font-size:16px; font-weight:700; margin-bottom:6px; color:var(--dark); }
+.sim14-fb-desc { font-size:12.5px; color:var(--grey); line-height:1.55; }
 </style>
 </head>
 <body>
@@ -693,7 +736,7 @@ const DATA = {
         },
         {
           id: "1.4", title: "Les élèves et l'IA — entre aide et triche ?", time: 15,
-          type: "Débat guidé", usageScale: true,
+          type: "Débat guidé", usageScale: true, cardGame: true,
           points: [
             "Constater sans dramatiser : les élèves utilisent déjà l'IA pour les devoirs — interdire sans éduquer est inefficace.",
             "Distinguer utiliser l'IA comme béquille (faire à la place) d'utiliser l'IA comme tremplin (générer une idée, puis la travailler).",
@@ -1202,6 +1245,7 @@ function renderSequence(s, color) {
 
   let actHTML = '';
   if (s.usageScale) actHTML += renderUsageScale();
+  if (s.cardGame) actHTML += renderCardGame();
   if (s.sim42) actHTML += renderSim42();
   if (s.activity) actHTML += renderActivity(s.activity, color);
   if (s.activity2) actHTML += renderActivity(s.activity2, color);
@@ -1336,6 +1380,127 @@ function renderActivity(a, color) {
         ${a.keyMsg ? `<div class="key-message"><span class="km-icon">💡</span><span class="km-text">${a.keyMsg}</span></div>` : ''}
       </div>
     </div>`;
+}
+
+// ══════════════════════════════════════════════
+// JEU DE CARTES — 1.4
+// ══════════════════════════════════════════════
+
+const sim14Cards = [
+  { front: "Demander à l'IA d'expliquer un concept mathématique complexe avec des mots simples.", hint: "Est-ce que cela aide à apprendre ou est-ce que cela remplace l'effort ?", back: "Usage Légitime. L'IA sert ici de tuteur personnalisé pour faciliter la compréhension, sans faire le travail à la place de l'enfant.", legitimate: true },
+  { front: "Faire rédiger entièrement sa dissertation par l'IA et la remettre comme son propre travail.", hint: "Qui a vraiment fait l'effort intellectuel ?", back: "Usage Non Légitime. L'élève contourne le processus d'apprentissage. C'est une forme de triche qui prive l'élève du bénéfice pédagogique.", legitimate: false },
+  { front: "Utiliser l'IA pour vérifier l'orthographe et la grammaire d'un texte rédigé soi-même.", hint: "Est-ce différent d'utiliser un correcteur orthographique classique ?", back: "Usage Légitime. Corriger son texte avec l'aide d'un outil est une pratique courante et acceptée. L'essentiel — la réflexion — vient de l'élève.", legitimate: true },
+  { front: "Demander à l'IA de résoudre tous les exercices de mathématiques sans essayer soi-même.", hint: "Quel est l'objectif des exercices ?", back: "Usage Non Légitime. Les exercices sont faits pour développer le raisonnement. Les faire faire par l'IA empêche tout apprentissage.", legitimate: false },
+  { front: "Utiliser l'IA pour générer des idées de plan avant de rédiger soi-même sa dissertation.", hint: "Générer des idées est-il différent de faire écrire le texte ?", back: "Usage Légitime (avec nuance). Brainstormer avec une IA peut stimuler la réflexion. L'important est que l'élève s'approprie les idées et rédige lui-même.", legitimate: true },
+  { front: "Demander à l'IA de traduire mot à mot un texte étranger pour éviter de l'apprendre.", hint: "L'objectif d'apprendre une langue est-il atteint ?", back: "Usage Non Légitime. Si l'objectif est d'apprendre la langue, contourner l'effort de traduction empêche l'acquisition des compétences linguistiques.", legitimate: false },
+  { front: "Utiliser l'IA pour créer des fiches de révision résumant les points clés d'un cours.", hint: "Créer des fiches est-il une compétence en soi ?", back: "Usage Légitime. Générer des fiches de révision peut être un bon point de départ, à condition que l'élève les relise et les adapte activement.", legitimate: true },
+  { front: "Demander à l'IA d'écrire un poème en classe pendant que le professeur attend votre création personnelle.", hint: "Que cherche à évaluer le professeur ?", back: "Usage Non Légitime. Dans ce contexte, le professeur évalue la créativité et l'expression personnelle de l'élève. Soumettre un texte d'IA est trompeur.", legitimate: false },
+];
+
+let sim14Idx = 0;
+let sim14Flipped = false;
+let sim14Score = 0;
+
+function renderCardGame() {
+  sim14Idx = 0; sim14Flipped = false; sim14Score = 0;
+  return `
+  <div class="sim14-wrap" id="sim14-wrap">
+    <div class="sim14-header">
+      <h3>🃏 IA : Usage Légitime ou Non ?</h3>
+      <p>Retournez la carte pour découvrir l'indice, puis décidez.</p>
+      <div class="sim14-progress-wrap">
+        <span class="sim14-progress-text" id="sim14-prog-text">Carte 1 / ${sim14Cards.length}</span>
+        <div class="sim14-progress-bar"><div class="sim14-progress-fill" id="sim14-prog-fill" style="width:${100/sim14Cards.length}%"></div></div>
+      </div>
+    </div>
+    <div class="sim14-game-area" id="sim14-game-area">
+      <div class="sim14-card" id="sim14-card" onclick="sim14ToggleFlip()">
+        <div class="sim14-face sim14-front">
+          <div class="sim14-front-icon">🤔</div>
+          <p>${sim14Cards[0].front}</p>
+        </div>
+        <div class="sim14-face sim14-back">
+          <div class="sim14-hint-label">💡 Indice</div>
+          <p>${sim14Cards[0].hint}</p>
+          <button class="sim14-flip-btn" onclick="event.stopPropagation();sim14ToggleFlip()">↩ Retourner</button>
+        </div>
+      </div>
+    </div>
+    <div class="sim14-finish" id="sim14-finish">
+      <div style="font-size:40px">🎯</div>
+      <h3>Résultat : <span id="sim14-score-val"></span> / ${sim14Cards.length}</h3>
+      <p>Bien joué ! La limite entre usage légitime et non légitime dépend souvent du contexte et de l'intention de l'élève.</p>
+      <button class="sim14-restart-btn" onclick="sim14Reset()">🔄 Recommencer</button>
+    </div>
+    <div class="sim14-actions" id="sim14-actions">
+      <button class="sim14-btn sim14-btn-no" onclick="sim14HandleChoice(false)">❌<span>Non légitime</span></button>
+      <button class="sim14-btn sim14-btn-yes" onclick="sim14HandleChoice(true)">✅<span>Légitime</span></button>
+    </div>
+    <div class="sim14-overlay" id="sim14-overlay">
+      <div class="sim14-fb-card" id="sim14-fb-card">
+        <div class="sim14-fb-icon" id="sim14-fb-icon"></div>
+        <div class="sim14-fb-title" id="sim14-fb-title"></div>
+        <div class="sim14-fb-desc" id="sim14-fb-desc"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function sim14UpdateCard() {
+  const c = sim14Cards[sim14Idx];
+  const card = document.getElementById('sim14-card');
+  if (!card) return;
+  card.classList.remove('flipped');
+  sim14Flipped = false;
+  card.querySelector('.sim14-front p').textContent = c.front;
+  card.querySelector('.sim14-back p').textContent = c.hint;
+  const pct = ((sim14Idx + 1) / sim14Cards.length * 100);
+  document.getElementById('sim14-prog-fill').style.width = pct + '%';
+  document.getElementById('sim14-prog-text').textContent = `Carte ${sim14Idx + 1} / ${sim14Cards.length}`;
+}
+
+function sim14ToggleFlip() {
+  const card = document.getElementById('sim14-card');
+  if (!card) return;
+  sim14Flipped = !sim14Flipped;
+  card.classList.toggle('flipped', sim14Flipped);
+}
+
+function sim14HandleChoice(isLegitimate) {
+  const card = sim14Cards[sim14Idx];
+  const correct = isLegitimate === card.legitimate;
+  if (correct) sim14Score++;
+  const overlay = document.getElementById('sim14-overlay');
+  const fbCard = document.getElementById('sim14-fb-card');
+  document.getElementById('sim14-fb-icon').textContent = correct ? '✅' : '❌';
+  document.getElementById('sim14-fb-title').textContent = correct ? 'Bonne réponse !' : 'Pas tout à fait…';
+  document.getElementById('sim14-fb-desc').textContent = card.back;
+  fbCard.style.borderColor = correct ? '#10b981' : '#ef4444';
+  overlay.classList.add('visible');
+  const el = document.getElementById('sim14-card');
+  el.classList.add(isLegitimate ? 'swipe-right' : 'swipe-left');
+  setTimeout(() => {
+    overlay.classList.remove('visible');
+    el.classList.remove('swipe-left', 'swipe-right');
+    sim14Idx++;
+    if (sim14Idx >= sim14Cards.length) {
+      document.getElementById('sim14-game-area').style.display = 'none';
+      document.getElementById('sim14-actions').style.display = 'none';
+      const fin = document.getElementById('sim14-finish');
+      fin.style.display = 'block';
+      document.getElementById('sim14-score-val').textContent = sim14Score;
+    } else {
+      sim14UpdateCard();
+    }
+  }, 2200);
+}
+
+function sim14Reset() {
+  sim14Idx = 0; sim14Flipped = false; sim14Score = 0;
+  document.getElementById('sim14-game-area').style.display = '';
+  document.getElementById('sim14-actions').style.display = '';
+  document.getElementById('sim14-finish').style.display = 'none';
+  sim14UpdateCard();
 }
 
 // ══════════════════════════════════════════════
