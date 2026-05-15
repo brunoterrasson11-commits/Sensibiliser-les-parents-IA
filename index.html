@@ -431,6 +431,29 @@ body { font-family: 'Jost', sans-serif; background: #f7f6f4; color: var(--dark);
 /* ── ANIMATIONS ── */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .module-view, .welcome { animation: fadeIn .3s ease; }
+
+/* ── MODE SWITCH ── */
+.mode-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: white; cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--grey); transition: all .2s; white-space: nowrap; flex-shrink: 0;
+}
+.mode-btn:hover { border-color: var(--purple); color: var(--purple); }
+.mode-btn.parents-mode { background: var(--purple); color: white; border-color: var(--purple); }
+
+/* Mode parents — masquages */
+body[data-mode="parents"] .anim-panel { display: none !important; }
+body[data-mode="parents"] .main { margin-right: 0 !important; }
+body[data-mode="parents"] .notes-area { display: none; }
+body[data-mode="parents"] .trainer-note { display: none; }
+body[data-mode="parents"] .trainer-only { display: none; }
+body[data-mode="parents"] #nav-m5,
+body[data-mode="parents"] #navseqs-m5 { display: none; }
+body[data-mode="parents"] .btn-check { display: none; }
+body[data-mode="parents"] .progress-global,
+body[data-mode="parents"] .progress-bar-wrap { display: none; }
+body[data-mode="parents"] .seq-type { display: none; }
 </style>
 </head>
 <body>
@@ -516,6 +539,7 @@ function checkCode() {
     <div class="header-right">
       <span class="progress-global" id="progressText">0 / 15 séquences</span>
       <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <button class="mode-btn" id="modeBtn" onclick="toggleMode()">👨‍👩‍👧 Présenter aux parents</button>
     </div>
   </div>
 </header>
@@ -585,15 +609,15 @@ function checkCode() {
     </div>
   </div>
 
-  <!-- Météo du groupe -->
+  <!-- Météo du jour -->
   <div class="ap-block">
-    <div class="ap-block-title" style="color:#10b981">🌤 Météo du groupe</div>
+    <div class="ap-block-title" style="color:#10b981">🌤 Météo du jour</div>
     <div class="meteo-emojis">
       <button class="meteo-btn" data-label="Très motivés" onclick="meteoClick(this)">😊<span class="meteo-count">0</span></button>
       <button class="meteo-btn" data-label="Attentifs" onclick="meteoClick(this)">🙂<span class="meteo-count">0</span></button>
       <button class="meteo-btn" data-label="Perplexes" onclick="meteoClick(this)">🤔<span class="meteo-count">0</span></button>
       <button class="meteo-btn" data-label="Fatigués" onclick="meteoClick(this)">😴<span class="meteo-count">0</span></button>
-      <button class="meteo-btn" data-label="Idée !" onclick="meteoClick(this)">💡<span class="meteo-count">0</span></button>
+      <button class="meteo-btn" data-label="Pas contents" onclick="meteoClick(this)">😠<span class="meteo-count">0</span></button>
     </div>
     <div class="meteo-label" id="meteoLabel">Cliquez sur l'émoji qui correspond à l'ambiance</div>
   </div>
@@ -1005,11 +1029,42 @@ const state = {
   currentModule: null,
   done: JSON.parse(localStorage.getItem('sophiae_done') || '{}'),
   notes: JSON.parse(localStorage.getItem('sophiae_notes') || '{}'),
-  timers: {}
+  timers: {},
+  mode: localStorage.getItem('sophiae_mode') || 'formateur'
 };
 
 function saveDone() { localStorage.setItem('sophiae_done', JSON.stringify(state.done)); }
 function saveNotes() { localStorage.setItem('sophiae_notes', JSON.stringify(state.notes)); }
+
+// ── MODE SWITCH ──
+function fmt(text) {
+  text = String(text).replace(/ 📎 <em>([^<]*)<\/em>/g, '<span class="trainer-note"> 📎 <em>$1</em></span>');
+  if (state.mode === 'parents') {
+    text = text.replace(/Le référent/g, "L'animateur").replace(/le référent/g, "l'animateur")
+               .replace(/Les référents/g, "Les animateurs").replace(/les référents/g, "les animateurs");
+  }
+  return text;
+}
+function toggleMode() {
+  state.mode = state.mode === 'formateur' ? 'parents' : 'formateur';
+  localStorage.setItem('sophiae_mode', state.mode);
+  applyMode();
+  if (state.mode === 'parents' && state.currentModule === 5) showView('welcome');
+  else if (state.currentModule) renderModule(state.currentModule);
+  else renderWelcome();
+}
+function applyMode() {
+  document.body.dataset.mode = state.mode;
+  const btn = document.getElementById('modeBtn');
+  if (!btn) return;
+  if (state.mode === 'parents') {
+    btn.className = 'mode-btn parents-mode';
+    btn.innerHTML = '🎓 Mode formateur';
+  } else {
+    btn.className = 'mode-btn';
+    btn.innerHTML = '👨‍👩‍👧 Présenter aux parents';
+  }
+}
 
 function totalSeqs() {
   return DATA.modules.reduce((a, m) => a + m.sequences.length, 0);
@@ -1110,7 +1165,7 @@ function renderWelcome() {
       </div>
 
       <div class="modules-grid">
-        ${DATA.modules.map(m => {
+        ${DATA.modules.filter(m => state.mode !== 'parents' || m.id !== 5).map(m => {
           const done = m.sequences.filter(s => state.done[s.id]).length;
           return `
           <div class="module-card mc${m.id}" onclick="showModule(${m.id})">
@@ -1174,11 +1229,14 @@ function renderSequence(s, color) {
   if (s.activity2) actHTML += renderActivity(s.activity2, color);
   if (s.activity3) actHTML += renderActivity(s.activity3, color);
   let methodHTML = '';
-  if (s.methodBox) methodHTML = `
-    <div class="method-box">
+  if (s.methodBox) {
+    const mbTrainer = /référent|facilitation|Ressources à préparer|Animation recommandée/i.test(s.methodBox.title);
+    methodHTML = `
+    <div class="method-box${mbTrainer ? ' trainer-only' : ''}">
       <div class="mb-title">${s.methodBox.title}</div>
       <p>${s.methodBox.text}</p>
     </div>`;
+  }
 
   return `
     <div class="seq-card${isDone ? ' done' : ''}" id="seq-${s.id}">
@@ -1204,7 +1262,7 @@ function renderSequence(s, color) {
           <button class="timer-stop" onclick="stopTimer('${s.id}')">Arrêter</button>
         </div>
         ${s.points ? `<ul class="seq-points">
-          ${s.points.map(p => `<li><span class="arrow">→</span><span>${p}</span></li>`).join('')}
+          ${s.points.map(p => `<li><span class="arrow">→</span><span>${fmt(p)}</span></li>`).join('')}
         </ul>` : ''}
         ${methodHTML}
         ${actHTML}
@@ -1218,7 +1276,7 @@ function renderSequence(s, color) {
 
 function renderActivity(a, color) {
   let stepsHTML = '';
-  if (a.steps) stepsHTML = `<ol class="steps-list">${a.steps.map(st => `<li>${st}</li>`).join('')}</ol>`;
+  if (a.steps) stepsHTML = `<ol class="steps-list">${a.steps.map(st => `<li>${fmt(st)}</li>`).join('')}</ol>`;
 
   let questionsHTML = '';
   if (a.questions) questionsHTML = `
@@ -1394,6 +1452,7 @@ function closeSidebar() {
 
 renderWelcome();
 updateProgress();
+applyMode();
 
 // ══════════════════════════════════════════════
 // PANNEAU ANIMATEUR
@@ -1435,7 +1494,7 @@ function apRender() {
 }
 
 // — Météo du groupe —
-const meteoLabels = { '😊': 'Très motivés', '🙂': 'Attentifs', '🤔': 'Perplexes', '😴': 'Fatigués', '💡': 'Idée !' };
+const meteoLabels = { '😊': 'Très motivés', '🙂': 'Attentifs', '🤔': 'Perplexes', '😴': 'Fatigués', '😠': 'Pas contents' };
 function meteoClick(btn) {
   const wasActive = btn.classList.contains('active');
   document.querySelectorAll('.meteo-btn').forEach(b => b.classList.remove('active'));
